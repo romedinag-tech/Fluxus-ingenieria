@@ -199,9 +199,9 @@
   .badge{box-shadow:0 8px 22px rgba(24,214,255,.18)}
 
   .carousel{position:relative;border-radius:18px;overflow:hidden;border:1px solid #14346a;box-shadow:0 30px 70px rgba(0,0,0,.45);aspect-ratio:2.35/1;background:#06224a}
-  .carousel .slide{position:absolute;inset:0;display:block;opacity:0;transition:opacity .9s ease;background-size:cover;background-position:center}
+  .carousel .slide{position:absolute;inset:0;display:block;opacity:0;pointer-events:none;z-index:1;transition:opacity .9s ease;background-size:cover;background-position:center}
   .carousel .slide::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,16,40,.12),rgba(3,16,40,.55) 55%,rgba(3,16,40,.93))}
-  .carousel .slide.on{opacity:1}
+  .carousel .slide.on{opacity:1;pointer-events:auto;z-index:2}
   .carousel .cap{position:absolute;left:0;right:0;bottom:0;padding:24px;z-index:2}
   .carousel .cap .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--cyan);background:rgba(24,214,255,.12);border:1px solid rgba(24,214,255,.3);padding:3px 10px;border-radius:20px;margin-bottom:9px}
   .carousel .cap h3{font-size:22px;color:#fff;margin-bottom:4px}
