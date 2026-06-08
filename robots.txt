@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://romedinag-tech.github.io/fluxus-web/sitemap.xml
+Sitemap: https://romedinag-tech.github.io/Fluxus-ingenieria/sitemap.xml
