@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluxus · Demanda y evasión por hora</title>
+<style>
+  :root{
+    --navy:#EAF2FF;--blue:#18D6FF;--orange:#21F2C3;--body:#C7D6EE;
+    --soft:#8AA0C7;--bg:#031B4E;--line:#16386a;--white:#0a2348;--green:#21F2C3;
+    --serif:Georgia,serif;--sans:'Segoe UI',Calibri,Inter,system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:#031B4E;color:var(--body);font-family:var(--sans)}
+  .wrap{max-width:880px;margin:0 auto;padding:22px}
+  h1{font-family:var(--serif);color:var(--navy);font-size:21px;margin:0 0 2px}
+  .sub{font-size:13px;color:var(--soft);margin:0 0 18px}
+  .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+  .kpi{border:1px solid var(--line);border-radius:12px;padding:13px 15px}
+  .kpi .lbl{font-size:11.5px;color:var(--soft);text-transform:uppercase;letter-spacing:.6px}
+  .kpi .val{font-family:var(--serif);font-size:26px;color:var(--navy);font-weight:700;font-variant-numeric:tabular-nums}
+  .kpi .val small{font-size:14px;color:var(--soft)}
+  .kpi.accent .val{color:var(--orange)}
+  .chartcard{border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .chartcard h2{font-family:var(--serif);font-size:14px;color:var(--navy);margin:0 0 12px;display:flex;align-items:center}
+  .chartcard h2 .lg{margin-left:auto;display:flex;gap:14px;font-size:11.5px;color:var(--soft);font-weight:400}
+  .chartcard h2 .lg span{display:flex;align-items:center;gap:6px}
+  .chip{width:11px;height:11px;border-radius:3px}
+  svg{display:block;width:100%;height:auto}
+  .foot{font-size:11px;color:var(--soft);margin-top:10px;text-align:right}
+  .foot b{color:var(--navy);font-family:var(--serif)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Demanda y evasión a bordo</h1>
+  <p class="sub">Pasajeros transportados por hora y tasa de evasión estimada · servicio tipo</p>
+
+  <div class="kpis">
+    <div class="kpi"><div class="lbl">Pasajeros / día</div><div class="val" id="k1">0</div></div>
+    <div class="kpi accent"><div class="lbl">Evasión promedio</div><div class="val" id="k2">0<small>%</small></div></div>
+    <div class="kpi"><div class="lbl">Hora punta</div><div class="val" id="k3">—</div></div>
+  </div>
+
+  <div class="chartcard">
+    <h2>Demanda por hora
+      <span class="lg">
+        <span><i class="chip" style="background:#18D6FF"></i>Pagados</span>
+        <span><i class="chip" style="background:#21F2C3"></i>Evasión</span>
+      </span>
+    </h2>
+    <svg id="chart" viewBox="0 0 820 320" aria-label="Histograma de demanda por hora"></svg>
+    <div class="foot"><b>Fluxus</b> · demo conceptual</div>
+  </div>
+</div>
+
+<script>
+const hours=["6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21"];
+// patrón con dos puntas (mañana/tarde)
+const base=[30,72,100,86,54,48,55,60,52,50,66,82,98,90,58,34];
+const evasionRate=[.09,.11,.16,.13,.08,.07,.08,.09,.07,.07,.10,.14,.18,.15,.10,.08];
+const svg=document.getElementById("chart");
+const W=820,H=320,padL=44,padB=34,padT=12,padR=10;
+const plotW=W-padL-padR, plotH=H-padT-padB, n=hours.length, gap=10;
+const bw=(plotW-gap*(n-1))/n, maxV=110;
+const NS="http://www.w3.org/2000/svg";
+function y(v){return padT+plotH-(v/maxV)*plotH;}
+// grid + labels
+[0,25,50,75,100].forEach(v=>{
+  const ln=document.createElementNS(NS,"line");
+  ln.setAttribute("x1",padL);ln.setAttribute("x2",W-padR);ln.setAttribute("y1",y(v));ln.setAttribute("y2",y(v));
+  ln.setAttribute("stroke","#16386a");ln.setAttribute("stroke-width","1");svg.appendChild(ln);
+  const tx=document.createElementNS(NS,"text");tx.setAttribute("x",padL-8);tx.setAttribute("y",y(v)+4);
+  tx.setAttribute("text-anchor","end");tx.setAttribute("font-size","11");tx.setAttribute("fill","#8AA0C7");
+  tx.setAttribute("font-family","Segoe UI,sans-serif");tx.textContent=v;svg.appendChild(tx);
+});
+const bars=[];
+hours.forEach((h,i)=>{
+  const x=padL+i*(bw+gap);
+  const paid=document.createElementNS(NS,"rect");
+  paid.setAttribute("x",x);paid.setAttribute("width",bw);paid.setAttribute("rx",3);
+  paid.setAttribute("y",y(0));paid.setAttribute("height",0);paid.setAttribute("fill","#18D6FF");
+  svg.appendChild(paid);
+  const eva=document.createElementNS(NS,"rect");
+  eva.setAttribute("x",x);eva.setAttribute("width",bw);eva.setAttribute("rx",3);
+  eva.setAttribute("y",y(0));eva.setAttribute("height",0);eva.setAttribute("fill","#21F2C3");
+  svg.appendChild(eva);
+  const lbl=document.createElementNS(NS,"text");
+  lbl.setAttribute("x",x+bw/2);lbl.setAttribute("y",H-padB+18);lbl.setAttribute("text-anchor","middle");
+  lbl.setAttribute("font-size","10.5");lbl.setAttribute("fill","#8AA0C7");lbl.setAttribute("font-family","Segoe UI,sans-serif");
+  lbl.textContent=h;svg.appendChild(lbl);
+  bars.push({paid,eva,x});
+});
+// animación de aparición
+let prog=0;
+function draw(){
+  prog=Math.min(1,prog+0.04);
+  let total=0,evaTot=0,peak=0,peakH="—";
+  hours.forEach((h,i)=>{
+    const tot=base[i], ev=Math.round(tot*evasionRate[i]), paidV=tot-ev;
+    const a=prog;
+    const paidH=(paidV/maxV)*plotH*a, evaH=(ev/maxV)*plotH*a;
+    bars[i].paid.setAttribute("y",y(0)-paidH);bars[i].paid.setAttribute("height",paidH);
+    bars[i].eva.setAttribute("y",y(0)-paidH-evaH);bars[i].eva.setAttribute("height",evaH);
+    total+=paidV;evaTot+=ev;if(tot>peak){peak=tot;peakH=h+":00";}
+  });
+  document.getElementById("k1").textContent=Math.round((total+evaTot)*38).toLocaleString("es-CL");
+  document.getElementById("k2").innerHTML=(evaTot/(total+evaTot)*100).toFixed(1).replace(".",",")+"<small>%</small>";
+  document.getElementById("k3").textContent=peakH;
+  if(prog<1)requestAnimationFrame(draw);
+}
+const io=new IntersectionObserver(es=>{if(es[0].isIntersecting){requestAnimationFrame(draw);io.disconnect();}});
+io.observe(svg);
+</script>
+</body>
+</html>

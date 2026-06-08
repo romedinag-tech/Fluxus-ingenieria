@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluxus · Mapa de buses en vivo</title>
+<style>
+  :root{
+    --navy:#EAF2FF; --blue:#18D6FF; --orange:#21F2C3; --body:#C7D6EE;
+    --soft:#8AA0C7; --bg:#031B4E; --line:#16386a; --white:#0a2348;
+    --serif:Georgia,'Times New Roman',serif; --sans:'Segoe UI',Calibri,Inter,system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:#031B4E;color:var(--body);font-family:var(--sans)}
+  .wrap{max-width:980px;margin:0 auto;padding:20px}
+  .head{display:flex;align-items:baseline;gap:10px;margin-bottom:4px}
+  .head h1{font-family:var(--serif);color:var(--navy);font-size:22px;margin:0;font-weight:700}
+  .head .live{margin-left:auto;display:flex;align-items:center;gap:7px;font-size:12px;color:var(--soft);font-weight:600}
+  .dot{width:9px;height:9px;border-radius:50%;background:var(--orange);animation:pulse 1.6s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+  .sub{font-size:13px;color:var(--soft);margin:0 0 14px}
+  .panel{display:grid;grid-template-columns:1fr 320px;gap:16px}
+  .card{background:#031B4E;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .mapwrap{position:relative;background:var(--bg)}
+  svg{display:block;width:100%;height:auto}
+  .side{padding:14px 16px}
+  .side h2{font-family:var(--serif);font-size:14px;color:var(--navy);margin:0 0 10px}
+  .route{margin-bottom:13px}
+  .route .top{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;margin-bottom:5px}
+  .route .name{font-weight:700;color:var(--navy)}
+  .route .pax{color:var(--soft);font-variant-numeric:tabular-nums}
+  .bar{height:8px;border-radius:5px;background:var(--line);overflow:hidden}
+  .bar i{display:block;height:100%;border-radius:5px;transition:width .9s ease, background .9s ease}
+  .legend{display:flex;gap:14px;font-size:11.5px;color:var(--soft);padding:10px 16px;border-top:1px solid var(--line)}
+  .legend span{display:flex;align-items:center;gap:6px}
+  .chip{width:11px;height:11px;border-radius:3px}
+  .foot{font-size:11px;color:var(--soft);margin-top:10px;text-align:right}
+  .foot b{color:var(--navy);font-family:var(--serif)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>Demanda de transporte público</h1>
+    <div class="live"><span class="dot"></span>EN VIVO</div>
+  </div>
+  <p class="sub">Seguimiento de flota y demanda a bordo en tiempo real · color según ocupación</p>
+
+  <div class="panel">
+    <div class="card mapwrap">
+      <svg viewBox="0 0 640 460" id="map" aria-label="Mapa de la ciudad con buses en vivo">
+        <!-- fondo manzanas -->
+        <rect width="640" height="460" fill="#031B4E"/>
+        <g stroke="#16386a" stroke-width="1">
+          <path d="M0 80 H640 M0 160 H640 M0 240 H640 M0 320 H640 M0 400 H640"/>
+          <path d="M90 0 V460 M190 0 V460 M290 0 V460 M390 0 V460 M490 0 V460 M580 0 V460"/>
+        </g>
+        <!-- "río"/eje -->
+        <path d="M-10 430 C140 400 220 330 360 330 S560 300 660 250" fill="none" stroke="#DDEAF7" stroke-width="14" opacity="0.8"/>
+        <!-- rutas -->
+        <path id="r1" d="M40 420 C120 360 160 300 290 290 S480 250 600 120" fill="none" stroke="#18D6FF" stroke-width="3" opacity="0.5" stroke-dasharray="2 5"/>
+        <path id="r2" d="M60 60 C160 120 200 200 300 220 S520 300 600 400" fill="none" stroke="#EAF2FF" stroke-width="3" opacity="0.35" stroke-dasharray="2 5"/>
+        <path id="r3" d="M30 240 C180 230 260 180 360 190 S520 210 610 230" fill="none" stroke="#7C9CC0" stroke-width="3" opacity="0.45" stroke-dasharray="2 5"/>
+        <!-- paradas -->
+        <g id="stops"></g>
+        <!-- buses -->
+        <g id="buses"></g>
+      </svg>
+      <div class="legend">
+        <span><i class="chip" style="background:#21F2C3"></i>Holgada</span>
+        <span><i class="chip" style="background:#18D6FF"></i>Media</span>
+        <span><i class="chip" style="background:#21F2C3"></i>Alta</span>
+        <span><i class="chip" style="background:#D9534F"></i>Saturada</span>
+      </div>
+    </div>
+
+    <div class="card side">
+      <h2>Demanda por servicio</h2>
+      <div id="routes"></div>
+      <div class="foot"><b>Fluxus</b> · demo conceptual</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const svgNS="http://www.w3.org/2000/svg";
+const routes=[
+  {id:"r1",name:"Línea 1 · Centro–Norte",color:"#18D6FF",base:62},
+  {id:"r2",name:"Línea 2 · Costanera",color:"#EAF2FF",base:40},
+  {id:"r3",name:"Línea 3 · Universidad",color:"#7C9CC0",base:78}
+];
+function loadColor(p){return p<40?"#21F2C3":p<70?"#18D6FF":p<90?"#21F2C3":"#D9534F";}
+const busLayer=document.getElementById("buses");
+const stopLayer=document.getElementById("stops");
+
+// paradas a lo largo de cada ruta
+routes.forEach(r=>{
+  const path=document.getElementById(r.id), L=path.getTotalLength();
+  for(let t=0.12;t<0.95;t+=0.22){
+    const pt=path.getPointAtLength(L*t);
+    const c=document.createElementNS(svgNS,"circle");
+    c.setAttribute("cx",pt.x);c.setAttribute("cy",pt.y);c.setAttribute("r",3.4);
+    c.setAttribute("fill","#0a2348");c.setAttribute("stroke",r.color);c.setAttribute("stroke-width","1.6");
+    stopLayer.appendChild(c);
+  }
+});
+
+// crear buses (varios por ruta)
+const buses=[];
+routes.forEach((r,ri)=>{
+  const path=document.getElementById(r.id), L=path.getTotalLength();
+  for(let k=0;k<3;k++){
+    const g=document.createElementNS(svgNS,"g");
+    const halo=document.createElementNS(svgNS,"circle");
+    halo.setAttribute("r","10");halo.setAttribute("fill","#000");halo.setAttribute("opacity","0.06");
+    const box=document.createElementNS(svgNS,"rect");
+    box.setAttribute("x","-7");box.setAttribute("y","-5");box.setAttribute("width","14");box.setAttribute("height","10");
+    box.setAttribute("rx","2.5");box.setAttribute("stroke","#0a2348");box.setAttribute("stroke-width","1.5");
+    g.appendChild(halo);g.appendChild(box);busLayer.appendChild(g);
+    buses.push({path,L,g,box,off:k/3+ri*0.08,speed:0.000018+Math.random()*0.000010,load:r.base});
+  }
+});
+
+let last=performance.now();
+function frame(now){
+  const dt=now-last;last=now;
+  buses.forEach(b=>{
+    b.off=(b.off+b.speed*dt)%1;
+    const pt=b.path.getPointAtLength(b.L*b.off);
+    b.g.setAttribute("transform",`translate(${pt.x.toFixed(1)},${pt.y.toFixed(1)})`);
+    b.box.setAttribute("fill",loadColor(b.load));
+  });
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+// panel lateral + variación de demanda
+const routesEl=document.getElementById("routes");
+const ui=routes.map(r=>{
+  const wrap=document.createElement("div");wrap.className="route";
+  wrap.innerHTML=`<div class="top"><span class="name">${r.name}</span><span class="pax">0 pax</span></div><div class="bar"><i></i></div>`;
+  routesEl.appendChild(wrap);
+  return {r,bar:wrap.querySelector("i"),pax:wrap.querySelector(".pax")};
+});
+function tick(){
+  ui.forEach(u=>{
+    const v=Math.max(20,Math.min(100,u.r.base+(Math.random()*30-15)));
+    u.r.base=u.r.base*0.7+v*0.3;
+    const p=Math.round(u.r.base);
+    u.bar.style.width=p+"%";u.bar.style.background=loadColor(p);
+    u.pax.textContent=Math.round(p*0.9)+" pax";
+    buses.filter(b=>b.path.id===u.r.id).forEach(b=>b.load=p);
+  });
+}
+tick();setInterval(tick,2200);
+</script>
+</body>
+</html>

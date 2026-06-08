@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluxus · Acceso portuario en vivo (ANPR)</title>
+<style>
+  :root{
+    --navy:#EAF2FF;--blue:#18D6FF;--orange:#21F2C3;--body:#C7D6EE;
+    --soft:#8AA0C7;--bg:#031B4E;--line:#16386a;--white:#0a2348;--green:#21F2C3;
+    --serif:Georgia,serif;--sans:'Segoe UI',Calibri,Inter,system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:#031B4E;color:var(--body);font-family:var(--sans)}
+  .wrap{max-width:900px;margin:0 auto;padding:22px}
+  .head{display:flex;align-items:baseline;gap:10px}
+  h1{font-family:var(--serif);color:var(--navy);font-size:21px;margin:0}
+  .live{margin-left:auto;display:flex;align-items:center;gap:7px;font-size:12px;color:var(--soft);font-weight:600}
+  .dot{width:9px;height:9px;border-radius:50%;background:var(--green);animation:pulse 1.6s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+  .sub{font-size:13px;color:var(--soft);margin:4px 0 18px}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+  .kpi{border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+  .kpi .lbl{font-size:11px;color:var(--soft);text-transform:uppercase;letter-spacing:.5px}
+  .kpi .val{font-family:var(--serif);font-size:23px;color:var(--navy);font-weight:700;font-variant-numeric:tabular-nums}
+  .kpi .val small{font-size:13px;color:var(--soft)}
+  .kpi.warn .val{color:var(--orange)}
+  .grid2{display:grid;grid-template-columns:1fr 300px;gap:14px}
+  .card{border:1px solid var(--line);border-radius:12px;padding:15px 17px}
+  .card h2{font-family:var(--serif);font-size:14px;color:var(--navy);margin:0 0 12px}
+  svg{display:block;width:100%;height:auto}
+  .feed{list-style:none;margin:0;padding:0;font-size:12.5px}
+  .feed li{display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--line)}
+  .feed li:last-child{border-bottom:0}
+  .plate{font-family:Consolas,monospace;font-weight:700;color:var(--navy);background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:2px 7px;letter-spacing:1px}
+  .tag{margin-left:auto;font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px}
+  .tag.in{color:#21F2C3;background:#0f2a52}
+  .tag.out{color:#21F2C3;background:#0f2a52}
+  .foot{font-size:11px;color:var(--soft);margin-top:10px;text-align:right}
+  .foot b{color:var(--navy);font-family:var(--serif)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>Acceso portuario — gestión de camiones</h1>
+    <div class="live"><span class="dot"></span>EN VIVO · ANPR</div>
+  </div>
+  <p class="sub">Lectura automática de patentes, control de turnos y tiempos de espera</p>
+
+  <div class="kpis">
+    <div class="kpi"><div class="lbl">Camiones / hora</div><div class="val" id="k1">0</div></div>
+    <div class="kpi warn"><div class="lbl">Espera promedio</div><div class="val" id="k2">0<small>min</small></div></div>
+    <div class="kpi"><div class="lbl">En cola ahora</div><div class="val" id="k3">0</div></div>
+    <div class="kpi"><div class="lbl">Cumplimiento cita</div><div class="val" id="k4">0<small>%</small></div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Tiempo de espera por hora (min)</h2>
+      <svg id="chart" viewBox="0 0 520 240" aria-label="Tiempo de espera por hora"></svg>
+      <div class="foot"><b>Fluxus</b> · demo conceptual</div>
+    </div>
+    <div class="card">
+      <h2>Lecturas recientes</h2>
+      <ul class="feed" id="feed"></ul>
+    </div>
+  </div>
+</div>
+
+<script>
+const NS="http://www.w3.org/2000/svg";
+// línea de espera por hora
+const hours=["7","8","9","10","11","12","13","14","15","16","17","18"];
+const wait=[18,34,52,46,30,26,28,33,40,55,38,22];
+const svg=document.getElementById("chart");
+const W=520,H=240,pL=34,pB=26,pT=10,pR=8,maxV=60;
+const plotW=W-pL-pR,plotH=H-pT-pB;
+const X=i=>pL+(plotW)*(i/(hours.length-1));
+const Y=v=>pT+plotH-(v/maxV)*plotH;
+[0,20,40,60].forEach(v=>{
+  const ln=document.createElementNS(NS,"line");
+  ln.setAttribute("x1",pL);ln.setAttribute("x2",W-pR);ln.setAttribute("y1",Y(v));ln.setAttribute("y2",Y(v));
+  ln.setAttribute("stroke","#16386a");svg.appendChild(ln);
+  const t=document.createElementNS(NS,"text");t.setAttribute("x",pL-7);t.setAttribute("y",Y(v)+4);
+  t.setAttribute("text-anchor","end");t.setAttribute("font-size","10");t.setAttribute("fill","#8AA0C7");t.textContent=v;svg.appendChild(t);
+});
+// área + línea
+let d="",area="";
+hours.forEach((h,i)=>{d+=(i?"L":"M")+X(i)+" "+Y(wait[i])+" ";
+  const tx=document.createElementNS(NS,"text");tx.setAttribute("x",X(i));tx.setAttribute("y",H-pB+16);
+  tx.setAttribute("text-anchor","middle");tx.setAttribute("font-size","10");tx.setAttribute("fill","#8AA0C7");tx.textContent=h;svg.appendChild(tx);
+});
+area=d+`L${X(hours.length-1)} ${Y(0)} L${X(0)} ${Y(0)} Z`;
+const ar=document.createElementNS(NS,"path");ar.setAttribute("d",area);ar.setAttribute("fill","#21F2C3");ar.setAttribute("opacity","0.10");svg.appendChild(ar);
+const ln=document.createElementNS(NS,"path");ln.setAttribute("d",d);ln.setAttribute("fill","none");ln.setAttribute("stroke","#21F2C3");ln.setAttribute("stroke-width","2.5");
+ln.setAttribute("stroke-linejoin","round");svg.appendChild(ln);
+const len=ln.getTotalLength();ln.style.strokeDasharray=len;ln.style.strokeDashoffset=len;
+hours.forEach((h,i)=>{const c=document.createElementNS(NS,"circle");c.setAttribute("cx",X(i));c.setAttribute("cy",Y(wait[i]));c.setAttribute("r",3);c.setAttribute("fill","#0a2348");c.setAttribute("stroke","#21F2C3");c.setAttribute("stroke-width","2");c.style.opacity=0;c.style.transition="opacity .4s "+(i*0.05+0.4)+"s";svg.appendChild(c);setTimeout(()=>c.style.opacity=1,50);});
+const io=new IntersectionObserver(es=>{if(es[0].isIntersecting){ln.style.transition="stroke-dashoffset 1.4s ease";ln.style.strokeDashoffset=0;io.disconnect();}});io.observe(svg);
+
+// KPIs animados
+function animTo(id,target,suffix=""){
+  const el=document.getElementById(id);let v=0;const step=target/30;
+  const t=setInterval(()=>{v+=step;if(v>=target){v=target;clearInterval(t);}
+    el.innerHTML=Math.round(v)+(suffix?`<small>${suffix}</small>`:"");},25);
+}
+setTimeout(()=>{animTo("k1",48);animTo("k2",31,"min");animTo("k3",12);animTo("k4",87,"%");},400);
+
+// feed de lecturas ANPR
+const letters="BCDFGHJKLPRSTVWXZ";
+function plate(){return letters[Math.random()*letters.length|0]+letters[Math.random()*letters.length|0]+"·"+(Math.random()*90+10|0)+(Math.random()*90+10|0);}
+const feed=document.getElementById("feed");
+function addRow(){
+  const li=document.createElement("li");
+  const into=Math.random()>0.45;
+  const now=new Date();const hh=String(now.getHours()).padStart(2,"0"),mm=String(now.getMinutes()).padStart(2,"0"),ss=String(now.getSeconds()).padStart(2,"0");
+  li.innerHTML=`<span class="plate">${plate()}</span><span style="color:#8AA0C7;font-size:11px">${hh}:${mm}:${ss}</span><span class="tag ${into?"in":"out"}">${into?"INGRESO":"SALIDA"}</span>`;
+  feed.prepend(li);while(feed.children.length>6)feed.removeChild(feed.lastChild);
+}
+for(let i=0;i<6;i++)addRow();
+setInterval(addRow,2600);
+</script>
+</body>
+</html>

@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluxus Ingeniería — Ingeniería de transporte que decide con datos</title>
+<meta name="description" content="Fluxus convierte el flujo real —de personas, vehículos y carga— en decisiones. Medición propia con cámaras e IA, microdato público e ingeniería senior de transporte.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://romedinag-tech.github.io/fluxus-web/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Fluxus Ingeniería — decide con datos">
+<meta property="og:description" content="Del flujo al dato, del dato a la inteligencia, de la inteligencia a la decisión.">
+<meta property="og:url" content="https://romedinag-tech.github.io/fluxus-web/">
+<meta property="og:image" content="https://romedinag-tech.github.io/fluxus-web/assets/keyvisual.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:locale" content="es_CL">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23031B4E'/%3E%3Ccircle cx='11' cy='16' r='3' fill='%2318D6FF'/%3E%3Ccircle cx='21' cy='16' r='3' fill='%2321F2C3'/%3E%3Cpath d='M11 16h10' stroke='%230D6EFD' stroke-width='2'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"Fluxus Ingeniería","url":"https://romedinag-tech.github.io/fluxus-web/","description":"Ingeniería de transporte y análisis urbano basados en datos.","areaServed":"CL"}
+</script>
+<style>
+  :root{
+    --neural:#0D6EFD;--cyan:#18D6FF;--green:#21F2C3;
+    --navy:#031B4E;--navy2:#071B35;--panel:#0A2348;--panel2:#0e2a55;
+    --line:#16386a;--txt:#E6EEF8;--muted:#8AA0C7;--white:#fff;
+    --grad:linear-gradient(135deg,#0D6EFD 0%,#18D6FF 50%,#21F2C3 100%);
+    --sans:'Inter',Segoe UI,system-ui,-apple-system,sans-serif;--maxw:1160px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);color:var(--txt);background:var(--navy2);line-height:1.6;font-size:17px;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,h4{font-weight:800;line-height:1.18;color:#fff;letter-spacing:-.01em}
+  a{color:var(--cyan);text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  section{padding:78px 0}
+  .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .eyebrow{font-size:12.5px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--cyan)}
+  .lead{font-size:18px;color:var(--muted)}
+  .btn{display:inline-block;padding:13px 26px;border-radius:12px;font-weight:600;font-size:15px;cursor:pointer;border:none;transition:.3s;font-family:var(--sans)}
+  .btn-primary{background:var(--neural);color:#fff;box-shadow:0 10px 30px rgba(13,110,253,.25)}
+  .btn-primary:hover{background:var(--cyan);color:#04223f;box-shadow:0 10px 34px rgba(24,214,255,.40)}
+  .btn-ghost{background:transparent;color:var(--cyan);border:1.5px solid #1f4f8a}
+  .btn-ghost:hover{border-color:var(--cyan);box-shadow:0 0 20px rgba(24,214,255,.25)}
+
+  header{position:sticky;top:0;z-index:100;background:rgba(3,16,40,.78);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;gap:8px;height:70px}
+  .brand img{height:38px;width:auto;display:block}
+  .links{margin-left:auto;display:flex;align-items:center;gap:24px}
+  .links>a,.links .has-drop>a{color:#dbe6f7;font-size:15px;font-weight:500;cursor:pointer}
+  .links a:hover{color:var(--cyan)}
+  .has-drop{position:relative}
+  .drop{position:absolute;top:36px;left:50%;transform:translateX(-50%) translateY(8px);background:#06224a;border:1px solid var(--line);border-radius:14px;box-shadow:0 24px 50px rgba(0,0,0,.5);padding:18px;width:560px;display:grid;grid-template-columns:1fr 1fr;gap:18px;opacity:0;visibility:hidden;transition:.25s}
+  .has-drop:hover .drop{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+  .drop h5{font-size:11.5px;letter-spacing:1px;text-transform:uppercase;color:var(--green);margin-bottom:8px}
+  .drop a{display:block;padding:6px 0;font-size:14px;color:#cdd9ee;font-weight:500}
+  .drop a:hover{color:var(--cyan)}
+  .menu-btn{display:none;margin-left:auto;background:none;border:none;font-size:26px;color:#fff;cursor:pointer}
+
+  [data-view]{display:none}[data-view].active{display:block;animation:fade .45s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+  .hero{position:relative;overflow:hidden;background:linear-gradient(rgba(3,16,40,.72),rgba(7,27,53,.90)),url('assets/keyvisual.png') center/cover no-repeat,radial-gradient(1200px 600px at 70% -10%,#0a2f6e 0%,var(--navy) 55%,var(--navy2) 100%);padding:64px 0 60px}
+  .hero .wrap{position:relative;z-index:2;display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+  .hero h1{font-size:42px;margin:14px 0 18px}
+  .hero p.sub{font-size:19px;color:#bcccea;max-width:560px;margin-bottom:28px}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap}
+  .heroart{position:relative}
+  .heroart img{width:100%;border-radius:18px;display:block;box-shadow:0 30px 70px rgba(0,0,0,.45);border:1px solid #14346a}
+  .heroart .glow{position:absolute;inset:-20px;background:radial-gradient(circle at 50% 50%,rgba(24,214,255,.22),transparent 60%);filter:blur(20px);z-index:-1}
+  .neural{position:absolute;inset:0;z-index:1;opacity:.5}
+  .neural line{stroke:#1f5bb0;stroke-width:1;opacity:.4}
+  .neural circle{fill:#18D6FF}
+  .neural circle.p{animation:pulse 3s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:26px;transition:.3s}
+  .card:hover{border-color:#235a9e;box-shadow:0 14px 40px rgba(13,110,253,.18)}
+  .card h3{font-size:19px;margin-bottom:8px}.card p{font-size:15px;color:var(--muted)}
+  .badge{width:46px;height:46px;border-radius:12px;background:var(--grad);display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+  .badge svg{width:24px;height:24px;color:#04223f}
+
+  .alt{background:var(--navy)}
+  .lanza .split{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+  .demo{background:#06224a;border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:0 14px 40px rgba(0,0,0,.35)}
+  .demo .row{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:16px;gap:10px}
+  .demo .kpi small{display:block;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+  .demo .kpi b{font-size:26px;color:#fff;font-variant-numeric:tabular-nums;font-weight:800}
+  .demo .kpi.eva b{color:var(--green)}
+  .demo .bars{display:flex;align-items:flex-end;gap:6px;height:120px;margin-top:6px}
+  .demo .bars span{flex:1;background:var(--cyan);border-radius:3px 3px 0 0;transition:height .6s,background .6s}
+  .live{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);font-weight:600}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 1.6s infinite}
+
+  .method{display:flex;align-items:center;justify-content:space-between;gap:6px;max-width:920px;margin:0 auto;flex-wrap:wrap}
+  .step{text-align:center;flex:1;min-width:120px}
+  .step .node{width:58px;height:58px;border-radius:50%;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;background:#06224a;border:2px solid #1f5bb0}
+  .step.last .node{background:var(--grad);border:none;box-shadow:0 0 24px rgba(33,242,195,.4)}
+  .step .node svg{width:26px;height:26px;color:var(--cyan)}.step.last .node svg{color:#04223f}
+  .step h4{font-size:17px}.step p{font-size:12.5px;color:var(--muted)}
+  .arrow{color:#1f5bb0;font-size:22px;align-self:flex-start;margin-top:16px}
+
+  .dolor{border-left:3px solid var(--green);padding:6px 0 6px 18px;margin-bottom:18px}
+  .dolor .q{font-style:italic;color:#eaf2ff;font-size:18px;font-weight:500;margin-bottom:4px}
+  .dolor .a{font-size:14.5px;color:var(--muted)}.dolor .a b{color:var(--cyan)}
+
+  .plano-tag{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:12.5px;letter-spacing:.5px;padding:6px 14px;border-radius:20px;border:1px solid var(--line)}
+  .plano-tag.g1{color:var(--green)}.plano-tag.g2{color:var(--cyan)}
+  .pcard{display:block;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;transition:.3s;cursor:pointer}
+  .pcard:hover{border-color:var(--cyan);box-shadow:0 14px 40px rgba(24,214,255,.16);transform:translateY(-3px)}
+  .pcard h4{font-size:16.5px;margin-bottom:6px;color:#fff}.pcard p{font-size:13.5px;color:var(--muted)}
+  .pcard .more{display:inline-block;margin-top:10px;font-size:13px;font-weight:600;color:var(--cyan)}
+  .ico{width:22px;height:22px}
+
+  .pdetail{padding:46px 0 70px}
+  .back{display:inline-flex;gap:6px;font-size:14px;font-weight:600;color:var(--muted);margin-bottom:18px;cursor:pointer}
+  .pdhead{display:flex;align-items:center;gap:16px;margin:6px 0 8px}
+  .pdhead .badge{width:54px;height:54px;flex:none}.pdhead .badge svg{width:28px;height:28px}
+  .pdhead h1{font-size:32px}
+  .pdtag{font-size:12.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+  .pdtag.g1{color:var(--green)}.pdtag.g2{color:var(--cyan)}
+  .pdgrid{display:grid;grid-template-columns:1.2fr .8fr;gap:36px;margin-top:24px;align-items:start}
+  .block{margin-bottom:22px}.block h3{font-size:18px;margin-bottom:8px}
+  .block ul{margin:0 0 0 20px}.block li{margin-bottom:5px;font-size:15.5px;color:#cfdcf2}
+  .block p{color:#cfdcf2}.block b{color:#fff}
+  .figbox{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;overflow:hidden}
+  .figcap{font-size:12.5px;color:var(--muted);margin-top:8px;text-align:center}
+  .note{background:#0c2f47;border:1px solid #1c6a78;border-radius:10px;padding:12px 14px;font-size:13.5px;color:#a9e9da;margin-top:10px}
+  .bigfig{width:160px;height:160px;border-radius:24px;background:var(--grad);display:flex;align-items:center;justify-content:center;margin:0 auto;box-shadow:0 0 40px rgba(24,214,255,.3)}
+  .bigfig svg{width:78px;height:78px;color:#04223f}
+
+  .person{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+  .person img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
+  .person .info{padding:20px 22px}
+  .person .role{font-size:12.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--cyan);margin-bottom:4px}
+  .person h3{font-size:21px;margin-bottom:8px}.person p{font-size:14.5px;color:var(--muted)}
+
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .field{display:flex;flex-direction:column;gap:5px}.field.full{grid-column:1/-1}
+  label{font-size:13px;color:var(--muted);font-weight:600}
+  input,select,textarea{background:#06224a;border:1px solid var(--line);border-radius:10px;padding:12px 14px;color:#fff;font-family:var(--sans);font-size:15px}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(24,214,255,.12)}
+  textarea{resize:vertical;min-height:90px}
+  .form-note{font-size:12.5px;color:var(--muted);margin-top:10px}
+  .ok-msg{display:none;background:#0c3522;border:1px solid #21F2C3;color:#9bf0d3;padding:14px;border-radius:10px;margin-top:14px;font-size:14.5px}
+  .ci{display:flex;flex-direction:column;gap:16px}.ci b{color:#fff}.ci .item{padding:14px 16px;background:var(--panel);border:1px solid var(--line);border-radius:12px}
+
+  footer{background:#020f24;border-top:1px solid var(--line);padding:40px 0 26px;font-size:14px;color:var(--muted)}
+  footer .cols{display:flex;flex-wrap:wrap;gap:40px;justify-content:space-between;margin-bottom:22px}
+  footer a{color:#9cc4ee;cursor:pointer}
+  footer img{height:40px;margin-bottom:10px}
+  footer .legal{border-top:1px solid var(--line);padding-top:18px;font-size:12.5px;color:#5e6f8a}
+
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s,transform .6s}.reveal.vis{opacity:1;transform:none}
+  @media(max-width:880px){
+    section{padding:54px 0}
+    .grid3,.grid2,.grid4,.split,.pdgrid,.hero .wrap,.contacto .wrap{grid-template-columns:1fr !important}
+    .links{display:none}.menu-btn{display:block}.hero h1{font-size:30px}.pdhead h1{font-size:25px}.drop{width:auto}
+  }
+
+  /* ---- pieza hero + cohesión gráfica ---- */
+  .heropanel{width:100%;height:auto;display:block;border-radius:18px;box-shadow:0 30px 70px rgba(0,0,0,.45)}
+  .heropanel .ring{animation:hring 3.4s ease-in-out infinite}
+  @keyframes hring{0%,100%{opacity:.3}50%{opacity:.95}}
+  .heropanel .dp{animation:hdp 4.2s ease-in-out infinite}
+  .heropanel .dp:nth-child(2){animation-delay:.6s}.heropanel .dp:nth-child(3){animation-delay:1.2s}.heropanel .dp:nth-child(4){animation-delay:1.8s}
+  @keyframes hdp{0%,100%{opacity:.25}50%{opacity:1}}
+  body{background-image:radial-gradient(rgba(120,180,255,.05) 1px,transparent 1.5px);background-size:30px 30px;background-attachment:fixed}
+  section.alt{background-color:var(--navy);background-image:radial-gradient(900px 440px at 85% -12%,rgba(13,110,253,.13),transparent 62%)}
+  section+section{border-top:1px solid rgba(120,180,255,.05)}
+  .badge{box-shadow:0 8px 22px rgba(24,214,255,.18)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a href="#home" class="brand"><img src="assets/logo-full.png" alt="Fluxus Ingeniería"></a>
+    <nav class="links">
+      <a href="#home">Inicio</a>
+      <div class="has-drop">
+        <a onclick="goSection('productos')">Productos ▾</a>
+        <div class="drop">
+          <div><h5>① Eficiencia en vivo</h5>
+            <a href="#prod-demanda">Demanda y evasión a bordo</a>
+            <a href="#prod-terminal">Eficiencia de terminales</a>
+            <a href="#prod-puerto">Acceso portuario</a>
+            <a href="#prod-recinto">Afluencia en recintos</a></div>
+          <div><h5>② Estudios y asesoría</h5>
+            <a href="#prod-estudios">Estudios de demanda e IMIV</a>
+            <a href="#prod-infra">Evaluación de infraestructura</a>
+            <a href="#prod-logistica">Logística y comercio exterior</a>
+            <a href="#prod-urbano">Análisis urbano y territorial</a></div>
+        </div>
+      </div>
+      <a onclick="goSection('equipo')">Quiénes somos</a>
+      <a onclick="goSection('contacto')">Contacto</a>
+      <a class="btn btn-primary" onclick="goSection('contacto')">Solicitar cotización</a>
+    </nav>
+    <button class="menu-btn" onclick="var l=document.querySelector('.links');l.style.display=l.style.display==='flex'?'none':'flex'">☰</button>
+  </div>
+</header>
+
+<!-- ================= HOME ================= -->
+<main data-view="home" class="active">
+  <section class="hero">
+    <svg class="neural" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice">
+      <line x1="120" y1="100" x2="320" y2="220"/><line x1="320" y1="220" x2="540" y2="120"/><line x1="540" y1="120" x2="760" y2="260"/><line x1="760" y1="260" x2="980" y2="160"/><line x1="320" y1="220" x2="420" y2="420"/><line x1="760" y1="260" x2="640" y2="460"/>
+      <circle class="p" cx="120" cy="100" r="4"/><circle class="p" cx="320" cy="220" r="5"/><circle class="p" cx="540" cy="120" r="4"/><circle class="p" cx="760" cy="260" r="5"/><circle class="p" cx="980" cy="160" r="4"/><circle class="p" cx="420" cy="420" r="4"/><circle class="p" cx="640" cy="460" r="4"/>
+    </svg>
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">Ingeniería de transporte · Analítica de movilidad</p>
+        <h1>Del flujo al dato, del dato a la inteligencia, de la inteligencia a la <span class="grad">decisión</span>.</h1>
+        <p class="sub">Convertimos el flujo real —de personas, vehículos y carga— en información para decidir mejor. Dato propio con tecnolog<span style="color:var(--cyan)">IA</span>, microdato público e ingeniería senior.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" onclick="goSection('contacto')">Solicitar cotización</a>
+          <a class="btn btn-ghost" href="#prod-demanda">Ver el producto bandera</a>
+        </div>
+      </div>
+      <div class="heroart"><div class="glow"></div><svg class="heropanel" viewBox="0 0 600 470" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Red de movilidad en vivo">
+<defs>
+<linearGradient id="pg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b2a59"/><stop offset="1" stop-color="#071f44"/></linearGradient>
+<linearGradient id="edge" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0D6EFD"/><stop offset="1" stop-color="#18D6FF"/></linearGradient>
+<radialGradient id="halo" cx="50%" cy="42%" r="55%"><stop offset="0" stop-color="#18D6FF" stop-opacity="0.20"/><stop offset="1" stop-color="#18D6FF" stop-opacity="0"/></radialGradient>
+<linearGradient id="node" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#18D6FF"/><stop offset="1" stop-color="#21F2C3"/></linearGradient>
+</defs>
+<rect x="2" y="2" width="596" height="466" rx="20" fill="url(#pg)" stroke="#14346a"/>
+<rect x="2" y="2" width="596" height="466" rx="20" fill="url(#halo)"/>
+<g transform="translate(28,26)">
+<circle class="ring" cx="6" cy="6" r="9" fill="none" stroke="#21F2C3" stroke-opacity="0.4"/><circle cx="6" cy="6" r="5" fill="#21F2C3"/>
+<text x="22" y="10" fill="#9fb6d6" font-size="12" font-weight="600" letter-spacing="1.5">FLUJO EN VIVO</text>
+<text x="572" y="10" text-anchor="end" fill="#5f7aa3" font-size="11">red de movilidad</text>
+</g>
+<g stroke="url(#edge)" stroke-width="1.6" fill="none" opacity="0.55">
+<path d="M120 150 C 200 110 260 200 330 160"/><path d="M330 160 C 410 130 470 210 500 175"/><path d="M120 150 C 160 230 120 300 180 340"/><path d="M180 340 C 260 300 330 360 360 320"/><path d="M360 320 C 430 300 470 250 500 290"/><path d="M330 160 C 330 240 300 280 360 320"/><path d="M500 175 C 520 240 510 270 500 290"/><path d="M180 340 C 130 360 110 380 130 410"/>
+</g>
+<g stroke="#2a4f86" stroke-width="1" fill="none" opacity="0.5"><path d="M120 150 L360 320"/><path d="M500 175 L180 340"/><path d="M330 160 L130 410"/></g>
+<g>
+<circle cx="120" cy="150" r="6" fill="#18D6FF"/>
+<circle class="ring" cx="330" cy="160" r="14" fill="none" stroke="#21F2C3" stroke-opacity="0.35"/><circle cx="330" cy="160" r="8" fill="url(#node)"/>
+<circle cx="500" cy="175" r="6" fill="#18D6FF"/><circle cx="180" cy="340" r="7" fill="#0D6EFD"/>
+<circle class="ring" cx="360" cy="320" r="15" fill="none" stroke="#21F2C3" stroke-opacity="0.3"/><circle cx="360" cy="320" r="9" fill="url(#node)"/>
+<circle cx="500" cy="290" r="6" fill="#18D6FF"/><circle cx="130" cy="410" r="5" fill="#18D6FF"/>
+</g>
+<g fill="#21F2C3"><circle class="dp" cx="250" cy="150" r="2.4"/><circle class="dp" cx="430" cy="180" r="2.4"/><circle class="dp" cx="270" cy="335" r="2.4"/><circle class="dp" cx="445" cy="305" r="2.4"/></g>
+<g transform="translate(28,398)">
+<rect x="0" y="0" width="170" height="48" rx="10" fill="#06224a" stroke="#173a6b"/><text x="14" y="20" fill="#7e97bd" font-size="10" letter-spacing="1">PASAJEROS / H</text><text x="14" y="40" fill="#fff" font-size="18" font-weight="800">1.284</text>
+<rect x="186" y="0" width="170" height="48" rx="10" fill="#06224a" stroke="#173a6b"/><text x="200" y="20" fill="#7e97bd" font-size="10" letter-spacing="1">EVASIÓN EST.</text><text x="200" y="40" fill="#21F2C3" font-size="18" font-weight="800">14,2%</text>
+<rect x="372" y="0" width="172" height="48" rx="10" fill="#06224a" stroke="#173a6b"/><text x="386" y="20" fill="#7e97bd" font-size="10" letter-spacing="1">ESTADO</text><text x="386" y="40" fill="#fff" font-size="18" font-weight="800">en vivo</text>
+</g>
+</svg></div>
+    </div>
+  </section>
+
+  <section class="alt lanza">
+    <div class="wrap split">
+      <div>
+        <p class="eyebrow">Producto bandera</p>
+        <h2 style="font-size:30px;margin:8px 0 14px">Medición de demanda de transporte público</h2>
+        <p class="lead" style="margin-bottom:18px">Sepa cuánta demanda llevan realmente sus buses, dónde sube y baja el pasajero y cuánto pierde en evasión. Y más allá del tablero: dónde se generan y se atraen los viajes.</p>
+        <a class="btn btn-primary" href="#prod-demanda">Conocer el producto</a>
+      </div>
+      <div class="demo">
+        <div class="row">
+          <div class="kpi"><small>Pasajeros a bordo</small><b id="d-pax">0</b></div>
+          <div class="kpi"><small>Suben / Bajan</small><b id="d-sb">+0/-0</b></div>
+          <div class="kpi eva"><small>Evasión est.</small><b id="d-eva">0%</b></div>
+        </div>
+        <div class="bars" id="d-bars"></div>
+        <div style="margin-top:10px"><span class="live"><span class="dot"></span>EN VIVO · demanda por hora</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <p class="eyebrow">Por qué Fluxus</p>
+      <h2 style="font-size:30px;margin:8px 0 6px">Lo que casi nadie puede ofrecer a la vez</h2>
+      <p class="lead" style="max-width:640px;margin-bottom:34px">Nuestro diferencial no es “usar datos”. Es la combinación de tres capacidades escasas, trabajando juntas.</p>
+      <div class="grid3">
+        <div class="card reveal"><div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg></div><h3>Dato propio</h3><p>Levantamos el dato donde no existe, con cámaras con IA y lectura de patentes (ANPR) y sensores en terreno.</p></div>
+        <div class="card reveal"><div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/></svg></div><h3>Microdato público</h3><p>Fusionamos fuentes que ya existen pero pocos saben explotar: SII, censo, aduana, patentes municipales.</p></div>
+        <div class="card reveal"><div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 6 6 1-4.5 4 1 6-5.5-3-5.5 3 1-6L3 9l6-1z"/></svg></div><h3>Ingeniería senior</h3><p>Trayectoria en planificación, modelación y evaluación de proyectos que da rigor y sentido al dato.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt">
+    <div class="wrap">
+      <p class="eyebrow" style="text-align:center">El método</p>
+      <h2 style="font-size:28px;text-align:center;margin:8px 0 36px">Del dato a la decisión</h2>
+      <div class="method">
+        <div class="step"><div class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="6" rx="7" ry="2.5"/><path d="M5 6v12c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5V6"/><path d="M5 12c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5"/></svg></div><h4>Dato</h4><p>microdato + big data</p></div>
+        <div class="arrow">›</div>
+        <div class="step"><div class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="14" height="10" rx="2"/><path d="M17 9l4-2v10l-4-2"/><circle cx="9" cy="11" r="3"/></svg></div><h4>Tecnología</h4><p>cámaras IA · sensores</p></div>
+        <div class="arrow">›</div>
+        <div class="step"><div class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V4M4 20h16M8 16v-4M13 16V8M18 16v-7"/></svg></div><h4>Analítica</h4><p>modelación e inteligencia</p></div>
+        <div class="arrow">›</div>
+        <div class="step last"><div class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5 9-11"/></svg></div><h4>Decisión</h4><p>mejor fundada</p></div>
+      </div>
+      <p style="text-align:center;color:var(--muted);font-size:14px;margin-top:30px">La analítica de datos es el motor común a toda nuestra oferta.</p>
+    </div>
+  </section>
+
+  <section id="productos">
+    <div class="wrap">
+      <p class="eyebrow">Productos</p>
+      <h2 style="font-size:30px;margin:8px 0 6px">Dos planos, según cómo lo necesita</h2>
+      <p class="lead" style="max-width:660px;margin-bottom:30px">El plano ① abre la puerta con medición tangible y recurrente; el plano ② entrega los estudios de alto valor. Haga clic en cada producto para conocerlo en detalle.</p>
+
+      <span class="plano-tag g1">① Eficiencia en vivo · medición propia, recurrente</span>
+      <div class="grid4" style="margin:14px 0 34px">
+        <a class="pcard" href="#prod-demanda"><div class="badge"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M3 9h18M7 21l2-4M17 21l-2-4"/></svg></div><h4>Demanda y evasión a bordo</h4><p>Demanda, sube/baja por parada y evasión, en vivo.</p><span class="more">Ver detalle →</span></a>
+        <a class="pcard" href="#prod-terminal"><div class="badge"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M4 21V4h16v17"/><rect x="7" y="9" width="4" height="4"/><rect x="13" y="9" width="4" height="4"/><path d="M9.5 21v-4h5v4"/></svg></div><h4>Eficiencia de terminales</h4><p>ANPR: tiempos, ocupación y rotación de andenes.</p><span class="more">Ver detalle →</span></a>
+        <a class="pcard" href="#prod-puerto"><div class="badge"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 16h18l-2 4H5z"/><path d="M5.5 16V9h7l3 3h3"/><path d="M8.5 9V6h3"/></svg></div><h4>Acceso portuario</h4><p>Llegada de camiones, colas y espera con ANPR.</p><span class="more">Ver detalle →</span></a>
+        <a class="pcard" href="#prod-recinto"><div class="badge"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 9l1.2-4h13.6L20 9M5 9v11h14V9M4 9h16"/><circle cx="10" cy="14" r="1.4" fill="currentColor" stroke="none"/><circle cx="14" cy="14" r="1.4" fill="currentColor" stroke="none"/></svg></div><h4>Afluencia en recintos</h4><p>Visitantes por hora, flujos y zonas calientes.</p><span class="more">Ver detalle →</span></a>
+      </div>
+
+      <span class="plano-tag g2">② Estudios y asesoría · por proyecto, alto valor</span>
+      <div class="grid4" style="margin-top:14px">
+        <a class="pcard" href="#prod-estudios"><div class="badge"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="12" height="18" rx="2"/><path d="M6 8h6M6 12h6M6 16h4"/><circle cx="16.5" cy="16.5" r="3.2"/><path d="M18.8 18.8L21.5 21.5"/></svg></div><h4>Estudios de demanda e IMIV</h4><p>Demanda, localización e Impacto Vial.</p><span class="more">Ver detalle →</span></a>
+        <a class="pcard" href="#prod-infra"><div class="badge"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 17h20M5 17v-4M19 17v-4M5 13c4-5 10-5 14 0M9 17v-3.5M12 17v-4M15 17v-3.5"/></svg></div><h4>Evaluación de infraestructura</h4><p>Modelación y evaluación social de proyectos.</p><span class="more">Ver detalle →</span></a>
+        <a class="pcard" href="#prod-logistica"><div class="badge"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h11v8H2zM13 10h5l3 3v2h-8z"/><circle cx="6" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg></div><h4>Logística y comercio exterior</h4><p>Flujos de carga, puertos e inversión logística.</p><span class="more">Ver detalle →</span></a>
+        <a class="pcard" href="#prod-urbano"><div class="badge"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M6 21V8h5v13M11 21V4h7v17"/></svg></div><h4>Análisis urbano y territorial</h4><p>Crecimiento urbano y económico con microdato.</p><span class="more">Ver detalle →</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt" id="equipo">
+    <div class="wrap">
+      <p class="eyebrow">Quiénes somos</p>
+      <h2 style="font-size:30px;margin:8px 0 6px">Ingeniería con sello de sector</h2>
+      <p class="lead" style="max-width:680px;margin-bottom:32px">Fluxus nace para convertir el flujo en decisiones, apoyada en una trayectoria real en planificación, regulación y evaluación de proyectos de transporte en Chile.</p>
+      <div class="grid2">
+        <div class="person reveal"><img src="assets/medina.jpg" alt="Rodrigo Medina González"><div class="info"><div class="role">Dirección y desarrollo</div><h3>Rodrigo Medina González</h3><p>Ingeniero Civil y ex Director Nacional de SECTRA. Conducción técnica de estudios de transporte, planificación de infraestructura y red institucional con el sector público.</p></div></div>
+        <div class="person reveal"><img src="assets/valladares.jpg" alt="Rodrigo Valladares Marchant"><div class="info"><div class="role">Desarrollo comercial y marco regulatorio</div><h3>Rodrigo Valladares Marchant</h3><p>Abogado con experiencia en la institucionalidad del transporte —validación de IMIV y regulación de servicios— y en la articulación público-privada.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contacto" id="contacto">
+    <div class="wrap" style="display:grid;grid-template-columns:1.3fr .7fr;gap:46px">
+      <div>
+        <p class="eyebrow">Contacto</p>
+        <h2 style="font-size:30px;margin:8px 0 18px">¿Conversamos sobre su proyecto?</h2>
+        <form id="form" autocomplete="on">
+          <input type="hidden" name="access_key" value="TU_ACCESS_KEY">
+          <input type="hidden" name="subject" value="Nueva consulta desde el sitio Fluxus">
+          <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
+          <div class="form-grid">
+            <div class="field"><label>Nombre*</label><input name="nombre" required></div>
+            <div class="field"><label>Empresa o institución</label><input name="empresa"></div>
+            <div class="field"><label>Correo*</label><input type="email" name="email" required></div>
+            <div class="field"><label>Teléfono</label><input name="telefono"></div>
+            <div class="field"><label>Tipo de solicitud</label><select name="tipo"><option>Cotización</option><option>Consulta general</option></select></div>
+            <div class="field"><label>Línea de interés</label><select name="linea"><option>Demanda y evasión a bordo</option><option>Eficiencia de terminales</option><option>Acceso portuario</option><option>Afluencia en recintos</option><option>Estudios de demanda / IMIV</option><option>Evaluación de infraestructura</option><option>Logística y comercio exterior</option><option>Análisis urbano y territorial</option></select></div>
+            <div class="field full"><label>Mensaje</label><textarea name="mensaje"></textarea></div>
+          </div>
+          <div style="margin-top:16px"><button type="submit" class="btn btn-primary">Enviar consulta</button></div>
+          <div class="ok-msg" id="ok">Gracias, su consulta fue enviada. Le responderemos a la brevedad.</div>
+          <p class="form-note">Sus datos se usan solo para responder su consulta.</p>
+        </form>
+      </div>
+      <div>
+        <div class="ci" style="margin-top:46px">
+          <div class="item"><b>Ubicación</b><br>Concepción, Chile</div>
+          <div class="item"><b>Atención</b><br>Sector público, concesiones e infraestructura, retail.</div>
+          <div class="item"><b>Respuesta</b><br>Le contactamos por correo tras recibir su consulta.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ================= PRODUCT: DEMANDA ================= -->
+<main data-view="prod-demanda">
+  <div class="wrap pdetail">
+    <a class="back" onclick="goSection('productos')">← Volver a productos</a>
+    <span class="pdtag g1">① Eficiencia en vivo</span>
+    <div class="pdhead"><div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M3 9h18M7 21l2-4M17 21l-2-4"/></svg></div><h1>Demanda y evasión a bordo</h1></div>
+    <div class="dolor"><div class="q">«¿Cuánta demanda llevan realmente mis buses y cuánto pierdo en evasión?»</div></div>
+    <div class="pdgrid">
+      <div>
+        <div class="block"><h3>El problema</h3><p>Hoy buena parte del transporte de pasajeros opera a ciegas sobre su propia demanda:</p>
+          <ul>
+            <li>En servicios <b>interurbanos</b> persisten los <b>pagos informales</b> y la evasión.</li>
+            <li>En servicios <b>urbanos con prepago por tarjeta</b>, no todos validan, así que la validación subestima la demanda real.</li>
+            <li>Incluso el transporte público urbano <b>regulado</b> carece de información fidedigna de la demanda que concentra hoy.</li>
+            <li>En los servicios <b>no regulados</b>, esa falta de información impide <b>postular a créditos</b> e incluso avanzar hacia la <b>regulación</b> ante el Ministerio de Transportes.</li>
+          </ul></div>
+        <div class="block"><h3>Qué entrega Fluxus</h3><p>Medición propia a bordo con cámaras e inteligencia artificial: demanda efectivamente transportada, perfil de <b>subidas y bajadas por parada</b> y <b>tasa de evasión</b>, en datos diarios y por hora. Información objetiva, independiente del medio de pago.</p></div>
+        <div class="block"><h3>Más allá del tablero: analítica territorial</h3><p>No solo entregamos un dashboard. Explicamos <b>dónde ocurre la demanda</b>: qué zonas <b>generan</b> viajes y cuáles los <b>atraen</b>, para rediseñar recorridos, frecuencias y estructura del servicio.</p></div>
+        <div class="block"><h3>Qué lo hace distinto</h3><p>Trabajamos con una <b>cámara binocular con inteligencia artificial</b> que se instala en la puerta de los buses: mide a la persona, no al medio de pago, con capacidades distintas a lo disponible hoy en el mercado, y entrega tanto el dato en vivo como la analítica que lo convierte en decisión.</p>
+          <div class="note">Pendiente: incorporar fotos reales del equipo de cámara binocular instalado en la puerta del bus.</div></div>
+      </div>
+      <div>
+        <div class="figbox" style="text-align:center"><img src="assets/cam-ia.png" onerror="this.onerror=null;this.src='camara-ia-anpr.svg'" alt="Cámara binocular con IA en la puerta del bus" style="width:100%;border-radius:8px"><div class="figcap">Cámara binocular con IA · conteo y lectura de patentes (ANPR)</div></div>
+      </div>
+    </div>
+    <div style="margin-top:30px">
+      <h3 style="font-size:18px;margin-bottom:12px">Véalo en vivo</h3>
+      <div class="figbox" style="padding:0;margin-bottom:18px"><iframe src="histograma-demanda-evasion.html" title="Demanda y evasión por hora" loading="lazy" style="width:100%;height:520px;border:0;display:block"></iframe></div>
+      <div class="figbox" style="padding:0"><iframe src="mapa-buses-en-vivo.html" title="Mapa de buses en vivo" loading="lazy" style="width:100%;height:560px;border:0;display:block"></iframe></div>
+    </div>
+    <div style="margin-top:24px"><a class="btn btn-primary" onclick="goSection('contacto')">Solicitar cotización</a></div>
+  </div>
+</main>
+
+<main data-view="prod-terminal"><div class="wrap pdetail">
+  <a class="back" onclick="goSection('productos')">← Volver a productos</a><span class="pdtag g1">① Eficiencia en vivo</span>
+  <div class="pdhead"><div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M4 21V4h16v17"/><rect x="7" y="9" width="4" height="4"/><rect x="13" y="9" width="4" height="4"/><path d="M9.5 21v-4h5v4"/></svg></div><h1>Eficiencia de terminales</h1></div>
+  <div class="dolor"><div class="q">«Mi terminal se congestiona y no tengo cifras de tiempos ni de uso de andenes.»</div></div>
+  <div class="pdgrid"><div>
+    <div class="block"><h3>Qué entrega Fluxus</h3><p>Control de accesos con lectura automática de patentes (ANPR): tiempos de entrada y salida, ocupación y rotación de andenes, con tablero en vivo.</p></div>
+    <div class="block"><h3>Qué incluye</h3><ul><li>Medición de tiempos de permanencia y rotación.</li><li>Ocupación de andenes en tiempo real.</li><li>Alertas e indicadores operacionales.</li></ul></div>
+    <div class="block"><h3>Para quién</h3><p>Operadores y concesionarios de terminales de buses, municipios.</p></div>
+    <div class="block"><h3>Qué lo distingue</h3><p>Dato propio capturado en terreno, no estimaciones: la operación se gestiona con cifras reales.</p></div>
+  </div><div><div class="figbox" style="padding:0"><img src="assets/prod-terminal.png" alt="Terminal de buses con cámara ANPR" style="width:100%;display:block;border-radius:12px" onerror="this.style.display='none'"></div></div></div>
+  <div style="margin-top:24px"><a class="btn btn-primary" onclick="goSection('contacto')">Solicitar cotización</a></div>
+</div></main>
+
+<main data-view="prod-puerto"><div class="wrap pdetail">
+  <a class="back" onclick="goSection('productos')">← Volver a productos</a><span class="pdtag g1">① Eficiencia en vivo</span>
+  <div class="pdhead"><div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 16h18l-2 4H5z"/><path d="M5.5 16V9h7l3 3h3"/><path d="M8.5 9V6h3"/></svg></div><h1>Acceso portuario y antepuertos</h1></div>
+  <div class="dolor"><div class="q">«Los camiones hacen colas en el puerto y no logro coordinar las llegadas; cada hora de espera me cuesta.»</div></div>
+  <div class="pdgrid"><div>
+    <div class="block"><h3>Qué entrega Fluxus</h3><p>Gestión de llegadas con ANPR y turnos: medición de filas y tiempos de espera, e información en vivo para ordenar el flujo de camiones.</p></div>
+    <div class="block"><h3>Qué incluye</h3><ul><li>Lectura de patentes en accesos (ANPR).</li><li>Medición de colas y tiempos de espera.</li><li>Coordinación de citas/turnos y tablero en vivo.</li></ul></div>
+    <div class="block"><h3>Para quién</h3><p>Puertos, antepuertos, operadores logísticos y concesionarios.</p></div>
+    <div class="block"><h3>Qué lo distingue</h3><p>Convierte el acceso en un proceso medido y gestionable, reduciendo esperas y costos.</p></div>
+  </div><div><div class="figbox" style="padding:0"><img src="assets/prod-puerto.png" alt="Acceso portuario con cámaras ANPR" style="width:100%;display:block;border-radius:12px" onerror="this.style.display='none'"></div></div></div>
+  <div style="margin-top:28px"><div class="figbox" style="padding:0"><iframe src="dashboard-antepuerto-anpr.html" title="Dashboard de acceso portuario" loading="lazy" style="width:100%;height:560px;border:0;display:block"></iframe></div></div>
+  <div style="margin-top:24px"><a class="btn btn-primary" onclick="goSection('contacto')">Solicitar cotización</a></div>
+</div></main>
+
+<main data-view="prod-recinto"><div class="wrap pdetail">
+  <a class="back" onclick="goSection('productos')">← Volver a productos</a><span class="pdtag g1">① Eficiencia en vivo</span>
+  <div class="pdhead"><div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 9l1.2-4h13.6L20 9M5 9v11h14V9M4 9h16"/><circle cx="10" cy="14" r="1.4" fill="currentColor" stroke="none"/><circle cx="14" cy="14" r="1.4" fill="currentColor" stroke="none"/></svg></div><h1>Afluencia en recintos</h1></div>
+  <div class="dolor"><div class="q">«No sé cuánta gente entra a mi local, a qué hora ni cómo se mueve adentro.»</div></div>
+  <div class="pdgrid"><div>
+    <div class="block"><h3>Qué entrega Fluxus</h3><p>Conteo y caracterización de afluencia: visitantes por hora y día, flujos peatonales y zonas calientes del recinto.</p></div>
+    <div class="block"><h3>Qué incluye</h3><ul><li>Conteo de visitantes en tiempo real.</li><li>Curvas horarias y estacionalidad.</li><li>Mapas de calor de circulación interna.</li></ul></div>
+    <div class="block"><h3>Para quién</h3><p>Retail, malls, equipamiento y espacios de alta afluencia.</p></div>
+    <div class="block"><h3>Qué lo distingue</h3><p>Apoya dotación, horarios y gestión comercial con dato propio, no muestral.</p></div>
+  </div><div><div class="figbox" style="padding:0"><img src="assets/prod-recinto.png" alt="Conteo de afluencia en recinto" style="width:100%;display:block;border-radius:12px" onerror="this.style.display='none'"></div></div></div>
+  <div style="margin-top:24px"><a class="btn btn-primary" onclick="goSection('contacto')">Solicitar cotización</a></div>
+</div></main>
+
+<main data-view="prod-estudios"><div class="wrap pdetail">
+  <a class="back" onclick="goSection('productos')">← Volver a productos</a><span class="pdtag g2">② Estudios y asesoría</span>
+  <div class="pdhead"><div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="12" height="18" rx="2"/><path d="M6 8h6M6 12h6M6 16h4"/><circle cx="16.5" cy="16.5" r="3.2"/><path d="M18.8 18.8L21.5 21.5"/></svg></div><h1>Estudios de demanda e IMIV</h1></div>
+  <div class="dolor"><div class="q">«Voy a invertir y necesito saber si hay demanda y si me van a aprobar el proyecto.»</div></div>
+  <div class="pdgrid"><div>
+    <div class="block"><h3>Qué entrega Fluxus</h3><p>Estudio de demanda, evaluación ex-ante de localización e Informe de Mitigación de Impacto Vial (IMIV) para tramitar la aprobación del proyecto.</p></div>
+    <div class="block"><h3>Qué incluye</h3><ul><li>Estimación de demanda y viajes generados.</li><li>Evaluación de localización con microdato (SII, patentes).</li><li>IMIV conforme a la normativa vigente.</li></ul></div>
+    <div class="block"><h3>Para quién</h3><p>Inmobiliarias, retail, desarrolladores y equipamientos que requieren aprobación.</p></div>
+    <div class="block"><h3>Qué lo distingue</h3><p>Une el rigor del estudio con dato real de demanda y conocimiento del marco regulatorio.</p></div>
+  </div><div><div class="figbox" style="padding:0"><img src="assets/prod-estudios.png" alt="Estudio de demanda e IMIV" style="width:100%;display:block;border-radius:12px" onerror="this.style.display='none'"></div></div></div>
+  <div style="margin-top:24px"><a class="btn btn-primary" onclick="goSection('contacto')">Solicitar cotización</a></div>
+</div></main>
+
+<main data-view="prod-infra"><div class="wrap pdetail">
+  <a class="back" onclick="goSection('productos')">← Volver a productos</a><span class="pdtag g2">② Estudios y asesoría</span>
+  <div class="pdhead"><div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 17h20M5 17v-4M19 17v-4M5 13c4-5 10-5 14 0M9 17v-3.5M12 17v-4M15 17v-3.5"/></svg></div><h1>Evaluación de infraestructura</h1></div>
+  <div class="dolor"><div class="q">«Tengo que justificar si esta calle, corredor o sistema ferroviario vale la pena.»</div></div>
+  <div class="pdgrid"><div>
+    <div class="block"><h3>Qué entrega Fluxus</h3><p>Modelación de demanda y evaluación social y económica del proyecto, para fundamentar la decisión de inversión.</p></div>
+    <div class="block"><h3>Qué incluye</h3><ul><li>Modelación de transporte y proyección de demanda.</li><li>Evaluación social y económica.</li><li>Comparación de alternativas.</li></ul></div>
+    <div class="block"><h3>Para quién</h3><p>MOP, Dirección General de Concesiones, Sectra, municipios y concesionarias.</p></div>
+    <div class="block"><h3>Qué lo distingue</h3><p>Experiencia directa en estudios de demanda y evaluación de proyectos viales y ferroviarios.</p></div>
+  </div><div><div class="figbox" style="padding:0"><img src="assets/prod-infra.png" alt="Evaluación de infraestructura" style="width:100%;display:block;border-radius:12px" onerror="this.style.display='none'"></div></div></div>
+  <div style="margin-top:24px"><a class="btn btn-primary" onclick="goSection('contacto')">Solicitar cotización</a></div>
+</div></main>
+
+<main data-view="prod-logistica"><div class="wrap pdetail">
+  <a class="back" onclick="goSection('productos')">← Volver a productos</a><span class="pdtag g2">② Estudios y asesoría</span>
+  <div class="pdhead"><div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h11v8H2zM13 10h5l3 3v2h-8z"/><circle cx="6" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg></div><h1>Logística y comercio exterior</h1></div>
+  <div class="dolor"><div class="q">«No tengo el panorama de los flujos de carga para decidir dónde invertir.»</div></div>
+  <div class="pdgrid"><div>
+    <div class="block"><h3>Qué entrega Fluxus</h3><p>Análisis de comercio exterior y flujos interurbanos, tendencias de puertos y antepuertos, y evaluación de la inversión logística.</p></div>
+    <div class="block"><h3>Qué incluye</h3><ul><li>Análisis de COMEX, aduana y flujos de carga.</li><li>Tendencias de crecimiento portuario.</li><li>Evaluación de inversión en infraestructura logística.</li></ul></div>
+    <div class="block"><h3>Para quién</h3><p>Puertos, MOP/Concesiones y privados de infraestructura logística.</p></div>
+    <div class="block"><h3>Qué lo distingue</h3><p>Mirada de escala nacional sobre el movimiento de carga, basada en datos.</p></div>
+  </div><div><div class="figbox" style="padding:0"><img src="assets/prod-logistica.png" alt="Logística y comercio exterior" style="width:100%;display:block;border-radius:12px" onerror="this.style.display='none'"></div></div></div>
+  <div style="margin-top:24px"><a class="btn btn-primary" onclick="goSection('contacto')">Solicitar cotización</a></div>
+</div></main>
+
+<main data-view="prod-urbano"><div class="wrap pdetail">
+  <a class="back" onclick="goSection('productos')">← Volver a productos</a><span class="pdtag g2">② Estudios y asesoría</span>
+  <div class="pdhead"><div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M6 21V8h5v13M11 21V4h7v17"/></svg></div><h1>Análisis urbano y territorial</h1></div>
+  <div class="dolor"><div class="q">«Necesito entender dónde crece la ciudad y qué conviene, con datos duros.»</div></div>
+  <div class="pdgrid"><div>
+    <div class="block"><h3>Qué entrega Fluxus</h3><p>Análisis de crecimiento urbano y económico a partir de microdato: Servicio de Impuestos Internos, censo y patentes municipales.</p></div>
+    <div class="block"><h3>Qué incluye</h3><ul><li>Dinámicas de crecimiento por manzana y ciudad.</li><li>Análisis económico territorial.</li><li>Apoyo a decisiones de localización e inversión.</li></ul></div>
+    <div class="block"><h3>Para quién</h3><p>Municipios, inmobiliarias, retail y desarrolladores.</p></div>
+    <div class="block"><h3>Qué lo distingue</h3><p>Explota fuentes públicas que pocos saben fusionar, con criterio de ingeniería.</p></div>
+  </div><div><div class="figbox" style="padding:0"><img src="assets/prod-urbano.png" alt="Análisis urbano y territorial" style="width:100%;display:block;border-radius:12px" onerror="this.style.display='none'"></div></div></div>
+  <div style="margin-top:24px"><a class="btn btn-primary" onclick="goSection('contacto')">Solicitar cotización</a></div>
+</div></main>
+
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div style="max-width:320px"><img src="assets/logo-full.png" alt="Fluxus Ingeniería"><p style="font-size:13px">Ingeniería de transporte y análisis urbano que decide desde el dato.</p></div>
+      <div><b style="color:#cdd9ee">Productos</b><br><a href="#prod-demanda">Eficiencia en vivo</a><br><a href="#prod-estudios">Estudios y asesoría</a></div>
+      <div><b style="color:#cdd9ee">Empresa</b><br><a onclick="goSection('equipo')">Quiénes somos</a><br><a onclick="goSection('contacto')">Contacto</a></div>
+      <div><b style="color:#cdd9ee">Ubicación</b><br>Concepción, Chile</div>
+    </div>
+    <div class="legal">© <span id="yr"></span> Fluxus Ingeniería. Todos los derechos reservados. · El tratamiento de datos de cámaras y ANPR se realiza conforme a la normativa vigente.</div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('yr').textContent=new Date().getFullYear();
+  function showView(id){var f=false;document.querySelectorAll('[data-view]').forEach(function(v){var on=v.dataset.view===id;v.classList.toggle('active',on);if(on)f=true;});if(!f)document.querySelector('[data-view="home"]').classList.add('active');window.scrollTo(0,0);var l=document.querySelector('.links');if(window.innerWidth<=880&&l)l.style.display='none';}
+  function route(){showView((location.hash||'#home').slice(1)||'home');}
+  window.addEventListener('hashchange',route);
+  function goSection(s){if((location.hash||'#home')!=='#home'){location.hash='#home';}setTimeout(function(){var el=document.getElementById(s);if(el)el.scrollIntoView({behavior:'smooth'});},90);}
+  route();
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target);}});},{threshold:.15});
+  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+  (function(){var bars=document.getElementById('d-bars');if(!bars)return;var base=[30,72,100,86,54,48,55,60,52,50,66,90,98,70];for(var i=0;i<base.length;i++){var s=document.createElement('span');s.style.height='4px';bars.appendChild(s);}var sp=bars.querySelectorAll('span');function col(v){return v>92?'#21F2C3':v>70?'#18D6FF':'#0D6EFD';}function tick(){sp.forEach(function(s,i){var v=Math.max(18,Math.min(100,base[i]+(Math.random()*18-9)));s.style.height=v+'%';s.style.background=col(v);});document.getElementById('d-pax').textContent=42+Math.round(Math.random()*16-8);document.getElementById('d-sb').textContent='+'+(Math.random()*8|0)+'/-'+(Math.random()*5|0);document.getElementById('d-eva').textContent=(9+Math.random()*9).toFixed(1).replace('.',',')+'%';}tick();setInterval(tick,2200);})();
+  var form=document.getElementById('form');var DEST='rmedina@fluxusingenieria.com,rvalladares@fluxusingenieria.com';
+  form.addEventListener('submit',async function(e){e.preventDefault();var data=Object.fromEntries(new FormData(form).entries());var key=data.access_key;var cuerpo='Nombre: '+data.nombre+'\nEmpresa: '+(data.empresa||'-')+'\nCorreo: '+data.email+'\nTeléfono: '+(data.telefono||'-')+'\nTipo: '+data.tipo+'\nLínea: '+data.linea+'\n\nMensaje:\n'+(data.mensaje||'-');if(key&&key!=='TU_ACCESS_KEY'){try{var r=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(data)});if(r.ok){form.reset();document.getElementById('ok').style.display='block';return;}}catch(err){}}var subject=encodeURIComponent('Consulta web · '+data.tipo+' · '+data.linea);window.location.href='mailto:'+DEST+'?subject='+subject+'&body='+encodeURIComponent(cuerpo);document.getElementById('ok').style.display='block';});
+</script>
+</body>
+</html>

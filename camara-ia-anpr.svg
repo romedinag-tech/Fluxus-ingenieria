@@ -1,0 +1,90 @@
+<svg viewBox="0 0 1200 675" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Calibri, sans-serif">
+  <defs>
+    <linearGradient id="cone" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#18D6FF" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#18D6FF" stop-opacity="0.02"/>
+    </linearGradient>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#071B35"/>
+      <stop offset="1" stop-color="#031B4E"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="675" fill="url(#sky)"/>
+  <!-- piso -->
+  <rect y="540" width="1200" height="135" fill="#EEF2F7"/>
+  <line x1="0" y1="540" x2="1200" y2="540" stroke="#16386a" stroke-width="2"/>
+
+  <!-- poste y cámara -->
+  <rect x="150" y="120" width="14" height="300" rx="4" fill="#EAF2FF"/>
+  <rect x="150" y="120" width="150" height="13" rx="6" fill="#EAF2FF"/>
+  <g transform="translate(300,108)">
+    <rect x="-8" y="-22" width="118" height="48" rx="10" fill="#EAF2FF"/>
+    <rect x="92" y="-14" width="34" height="32" rx="7" fill="#0f2a52"/>
+    <circle cx="112" cy="2" r="11" fill="#18D6FF"/>
+    <circle cx="112" cy="2" r="5" fill="#EAF2FF"/>
+    <circle cx="20" cy="-30" r="5" fill="#21F2C3"/>
+    <text x="40" y="6" font-size="15" font-weight="700" fill="#0a2348">IA</text>
+  </g>
+
+  <!-- cono de visión -->
+  <path d="M412 110 L1080 330 L1080 540 L470 540 Z" fill="url(#cone)"/>
+  <path d="M412 110 L1080 330" stroke="#18D6FF" stroke-width="1.5" stroke-dasharray="6 6" opacity="0.5"/>
+  <path d="M412 110 L470 540" stroke="#18D6FF" stroke-width="1.5" stroke-dasharray="6 6" opacity="0.5"/>
+
+  <!-- bus -->
+  <g transform="translate(560,360)">
+    <rect x="0" y="0" width="420" height="150" rx="20" fill="#18D6FF"/>
+    <rect x="0" y="0" width="420" height="40" rx="20" fill="#0D6EFD"/>
+    <!-- ventanas -->
+    <g fill="#16386a">
+      <rect x="28" y="32" width="60" height="52" rx="8"/>
+      <rect x="104" y="32" width="60" height="52" rx="8"/>
+      <rect x="180" y="32" width="60" height="52" rx="8"/>
+      <rect x="256" y="32" width="60" height="52" rx="8"/>
+      <rect x="332" y="32" width="60" height="52" rx="8"/>
+    </g>
+    <!-- pasajeros (siluetas en ventanas) -->
+    <g fill="#EAF2FF" opacity="0.55">
+      <circle cx="58" cy="58" r="11"/><circle cx="134" cy="58" r="11"/><circle cx="210" cy="58" r="11"/><circle cx="286" cy="58" r="11"/><circle cx="362" cy="58" r="11"/>
+    </g>
+    <!-- ruedas -->
+    <circle cx="90" cy="150" r="26" fill="#EAF2FF"/><circle cx="90" cy="150" r="11" fill="#8AA0C7"/>
+    <circle cx="330" cy="150" r="26" fill="#EAF2FF"/><circle cx="330" cy="150" r="11" fill="#8AA0C7"/>
+    <!-- patente + bounding box ANPR -->
+    <g transform="translate(150,118)">
+      <rect x="0" y="0" width="120" height="34" rx="5" fill="#0a2348" stroke="#21F2C3" stroke-width="3"/>
+      <text x="60" y="24" text-anchor="middle" font-family="Consolas, monospace" font-size="19" font-weight="700" fill="#EAF2FF" letter-spacing="2">BC·1234</text>
+      <rect x="-6" y="-6" width="132" height="46" rx="7" fill="none" stroke="#21F2C3" stroke-width="2" stroke-dasharray="5 4"/>
+      <text x="-6" y="-12" font-size="13" font-weight="700" fill="#21F2C3">ANPR · patente leída</text>
+    </g>
+  </g>
+
+  <!-- cajas de detección de personas (conteo) -->
+  <g stroke="#21F2C3" stroke-width="2.5" fill="none">
+    <rect x="600" y="392" width="34" height="44" rx="4"/>
+    <rect x="676" y="392" width="34" height="44" rx="4"/>
+    <rect x="752" y="392" width="34" height="44" rx="4"/>
+    <rect x="828" y="392" width="34" height="44" rx="4"/>
+  </g>
+  <g fill="#21F2C3" font-size="11" font-weight="700">
+    <text x="600" y="386">0.98</text><text x="676" y="386">0.97</text><text x="752" y="386">0.99</text><text x="828" y="386">0.96</text>
+  </g>
+
+  <!-- panel de lectura en vivo -->
+  <g transform="translate(150,470)">
+    <rect x="0" y="0" width="330" height="150" rx="14" fill="#EAF2FF"/>
+    <circle cx="26" cy="30" r="6" fill="#21F2C3"/>
+    <text x="42" y="35" font-size="15" font-weight="700" fill="#0a2348">Lectura en vivo</text>
+    <text x="26" y="74" font-size="13" fill="#8AA0C7">Pasajeros a bordo</text>
+    <text x="304" y="74" text-anchor="end" font-size="22" font-weight="700" font-family="Georgia, serif" fill="#0a2348">42</text>
+    <text x="26" y="106" font-size="13" fill="#8AA0C7">Suben / Bajan</text>
+    <text x="304" y="106" text-anchor="end" font-size="22" font-weight="700" font-family="Georgia, serif" fill="#0a2348">+7 / −3</text>
+    <text x="26" y="138" font-size="13" fill="#8AA0C7">Evasión estimada</text>
+    <text x="304" y="138" text-anchor="end" font-size="22" font-weight="700" font-family="Georgia, serif" fill="#21F2C3">14%</text>
+  </g>
+
+  <!-- titulo -->
+  <text x="150" y="70" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#EAF2FF">Medición con cámaras e inteligencia artificial</text>
+  <text x="152" y="98" font-size="16" fill="#8AA0C7">Conteo de demanda, lectura de patentes (ANPR) y evasión, en tiempo real</text>
+</svg>
