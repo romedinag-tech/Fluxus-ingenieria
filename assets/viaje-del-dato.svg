@@ -13,80 +13,99 @@
   <text x="20" y="66" fill="#E6EEF8" font-size="26" font-weight="800">Del evento real a un indicador para decidir</text>
 
   <!-- connectors -->
-  <g stroke="url(#g)" stroke-width="2.4" fill="none" opacity="0.8">
-    <path d="M278 230 h28" marker-end="url(#ah)"/>
+  <g stroke="url(#g)" stroke-width="2.6" fill="none" stroke-linecap="round">
+    <path d="M288 230h13"/><path d="M582 230h13"/><path d="M876 230h13"/>
   </g>
-  <g fill="#18D6FF" opacity="0.85">
-    <path d="M300 222 l10 8 -10 8 z"/>
-    <path d="M594 222 l10 8 -10 8 z"/>
-    <path d="M888 222 l10 8 -10 8 z"/>
+  <g fill="#18D6FF">
+    <path d="M300 224l9 6-9 6z"/><path d="M594 224l9 6-9 6z"/><path d="M888 224l9 6-9 6z"/>
   </g>
 
-  <!-- CARD 1 — El Evento -->
+  <!-- CARD 1 — El evento -->
   <g>
     <rect x="20" y="110" width="262" height="240" rx="16" fill="url(#panel)" stroke="#14346a"/>
     <rect x="36" y="126" width="40" height="40" rx="11" fill="url(#g)"/>
-    <text x="56" y="152" text-anchor="middle" fill="#04223f" font-size="20" font-weight="800">1</text>
-    <!-- icon: persona subiendo al bus -->
-    <g transform="translate(96,196)" stroke="#18D6FF" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M2 4h30a4 4 0 0 1 4 4v30H2z"/><path d="M2 14h36"/>
-      <circle cx="20" cy="26" r="3.2" fill="#18D6FF" stroke="none"/>
+    <text x="56" y="153" text-anchor="middle" fill="#04223f" font-size="20" font-weight="800">1</text>
+    <!-- bus -->
+    <g transform="translate(78,184)" stroke="url(#g)" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="0" y="4" width="42" height="34" rx="6"/>
+      <path d="M0 16h42"/>
+      <rect x="27" y="20" width="12" height="18" rx="2"/>
+      <circle cx="10" cy="44" r="3.4"/><circle cx="32" cy="44" r="3.4"/>
+      <circle cx="10" cy="28" r="2.3" fill="url(#g)" stroke="none"/>
+      <circle cx="19" cy="28" r="2.3" fill="url(#g)" stroke="none"/>
     </g>
-    <g transform="translate(150,188)" stroke="#21F2C3" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="10" cy="6" r="4.5"/><path d="M10 12v16M10 18l-9 6M10 18l9 6M10 28l-7 12M10 28l7 12"/>
+    <!-- up arrow: boarding -->
+    <g transform="translate(130,196)" stroke="#21F2C3" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.85">
+      <path d="M8 14V2M3 7l5-5 5 5"/>
+    </g>
+    <!-- person -->
+    <g transform="translate(150,186)" stroke="#21F2C3" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="8" r="5.5"/>
+      <path d="M2 42v-7a10 10 0 0 1 20 0v7"/>
     </g>
     <text x="36" y="296" fill="#fff" font-size="17" font-weight="700">El evento</text>
     <text x="36" y="320" fill="#9fb6d6" font-size="13.5">Una persona sube o</text>
     <text x="36" y="338" fill="#9fb6d6" font-size="13.5">baja del bus.</text>
   </g>
 
-  <!-- CARD 2 — La Detección -->
+  <!-- CARD 2 — La detección -->
   <g>
     <rect x="314" y="110" width="262" height="240" rx="16" fill="url(#panel)" stroke="#14346a"/>
     <rect x="330" y="126" width="40" height="40" rx="11" fill="url(#g)"/>
-    <text x="350" y="152" text-anchor="middle" fill="#04223f" font-size="20" font-weight="800">2</text>
-    <!-- icon: cámara IA con haz -->
-    <g transform="translate(388,190)" stroke="#18D6FF" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="0" y="6" width="34" height="26" rx="4"/><path d="M34 13l14-6v32l-14-6"/><circle cx="16" cy="19" r="7"/>
+    <text x="350" y="153" text-anchor="middle" fill="#04223f" font-size="20" font-weight="800">2</text>
+    <!-- binocular camera with AI -->
+    <g transform="translate(360,188)" stroke="url(#g)" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="0" y="6" width="46" height="28" rx="6"/>
+      <path d="M13 6l2.5-4h15l2.5 4"/>
+      <circle cx="15" cy="20" r="6.5"/><circle cx="33" cy="20" r="6.5"/>
+      <circle cx="15" cy="20" r="1.8" fill="url(#g)" stroke="none"/><circle cx="33" cy="20" r="1.8" fill="url(#g)" stroke="none"/>
     </g>
-    <g transform="translate(440,182)" stroke="#21F2C3" stroke-width="2" fill="none" opacity="0.85" stroke-dasharray="4 4">
-      <path d="M6 18 L40 6M6 30 L40 42"/>
+    <!-- detection beam -->
+    <g transform="translate(412,202)" stroke="#21F2C3" stroke-width="2" fill="none" stroke-dasharray="4 5" opacity="0.9"><path d="M0 11h22"/></g>
+    <!-- detected person frame -->
+    <g transform="translate(440,188)" stroke="#21F2C3" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="0" y="0" width="30" height="36" rx="4"/>
+      <circle cx="15" cy="13" r="4.5"/>
+      <path d="M6 31c1.5-5 16.5-5 18 0"/>
     </g>
-    <rect x="470" y="196" width="20" height="20" rx="3" fill="none" stroke="#21F2C3" stroke-width="2"/>
     <text x="330" y="296" fill="#fff" font-size="17" font-weight="700">La detección</text>
     <text x="330" y="320" fill="#9fb6d6" font-size="13.5">Cámara binocular con IA</text>
     <text x="330" y="338" fill="#9fb6d6" font-size="13.5">identifica a la persona.</text>
   </g>
 
-  <!-- CARD 3 — La Firma Digital -->
+  <!-- CARD 3 — La firma digital -->
   <g>
     <rect x="608" y="110" width="262" height="240" rx="16" fill="url(#panel)" stroke="#14346a"/>
     <rect x="624" y="126" width="40" height="40" rx="11" fill="url(#g)"/>
-    <text x="644" y="152" text-anchor="middle" fill="#04223f" font-size="20" font-weight="800">3</text>
-    <!-- icon: chip / firma -->
-    <g transform="translate(688,188)" stroke="#18D6FF" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="6" y="6" width="32" height="32" rx="5"/>
-      <path d="M14 0v6M22 0v6M30 0v6M14 38v6M22 38v6M30 38v6M0 14h6M0 22h6M0 30h6M38 14h6M38 22h6M38 30h6"/>
-      <circle cx="22" cy="22" r="6" fill="#21F2C3" stroke="none"/>
+    <text x="644" y="153" text-anchor="middle" fill="#04223f" font-size="20" font-weight="800">3</text>
+    <!-- chip + secure shield/check -->
+    <g transform="translate(712,186)" stroke="url(#g)" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="6" y="6" width="40" height="40" rx="7"/>
+      <path d="M16 0v6M26 0v6M36 0v6M16 46v6M26 46v6M36 46v6M0 16h6M0 26h6M0 36h6M46 16h6M46 26h6M46 36h6"/>
+    </g>
+    <g transform="translate(712,186)" stroke="#21F2C3" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M26 13.5l9 3.5v5.5c0 5-4 8-9 9.6-5-1.6-9-4.6-9-9.6v-5.5z"/>
+      <path d="M22 25.5l2.6 2.6 5-5.4"/>
     </g>
     <text x="624" y="296" fill="#fff" font-size="17" font-weight="700">La firma digital</text>
     <text x="624" y="320" fill="#9fb6d6" font-size="13.5">Se registra el dato:</text>
     <text x="624" y="338" fill="#9fb6d6" font-size="13.5">objetivo y anónimo.</text>
   </g>
 
-  <!-- CARD 4 — La Transmisión -->
+  <!-- CARD 4 — El indicador -->
   <g>
     <rect x="902" y="110" width="262" height="240" rx="16" fill="url(#panel)" stroke="#14346a"/>
     <rect x="918" y="126" width="40" height="40" rx="11" fill="url(#g)"/>
-    <text x="938" y="152" text-anchor="middle" fill="#04223f" font-size="20" font-weight="800">4</text>
-    <!-- icon: nube + base de datos -->
-    <g transform="translate(978,186)" stroke="#18D6FF" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M10 30h22a9 9 0 0 0 1-18 12 12 0 0 0-23-3 8 8 0 0 0 0 21z"/>
-      <path d="M21 28v-12M21 16l-5 5M21 16l5 5"/>
+    <text x="938" y="153" text-anchor="middle" fill="#04223f" font-size="20" font-weight="800">4</text>
+    <!-- gauge / indicator -->
+    <g transform="translate(1000,192)" stroke="url(#g)" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M2 40a26 26 0 0 1 52 0"/>
+      <path d="M28 40l13-12"/>
+      <circle cx="28" cy="40" r="3.6" fill="url(#g)" stroke="none"/>
+      <path d="M3 35l3.5 1M52.5 35l-3.5 1M28 13v4" opacity="0.55"/>
     </g>
-    <g transform="translate(1040,196)" stroke="#21F2C3" stroke-width="2.4" fill="none">
-      <ellipse cx="11" cy="6" rx="11" ry="3.4"/><path d="M0 6v14c0 1.7 4.9 3 11 3s11-1.3 11-3V6"/><path d="M0 13c0 1.7 4.9 3 11 3s11-1.3 11-3"/>
-    </g>
+    <!-- live dot -->
+    <circle cx="1046" cy="198" r="4.5" fill="#21F2C3"/>
     <text x="918" y="296" fill="#fff" font-size="17" font-weight="700">El indicador</text>
     <text x="918" y="320" fill="#9fb6d6" font-size="13.5">Demanda y evasión, en</text>
     <text x="918" y="338" fill="#21F2C3" font-size="13.5" font-weight="700">vivo, listas para decidir.</text>

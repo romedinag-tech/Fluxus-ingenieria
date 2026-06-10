@@ -4,38 +4,40 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fluxus · Acceso portuario en vivo (ANPR)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
     --navy:#EAF2FF;--blue:#18D6FF;--orange:#21F2C3;--body:#C7D6EE;
-    --soft:#8AA0C7;--bg:#031B4E;--line:#16386a;--white:#0a2348;--green:#21F2C3;
-    --serif:Georgia,serif;--sans:'Segoe UI',Calibri,Inter,system-ui,sans-serif;
+    --soft:#8AA0C7;--bg:#031B4E;--line:#16386a;--white:#0a2348;--green:#21F2C3;--cyan:#18D6FF;--panel:#0a2348;
+    --serif:'Inter','Segoe UI',system-ui,sans-serif;--sans:'Inter','Segoe UI',system-ui,sans-serif;
   }
   *{box-sizing:border-box}
   body{margin:0;background:#031B4E;color:var(--body);font-family:var(--sans)}
   .wrap{max-width:900px;margin:0 auto;padding:22px}
   .head{display:flex;align-items:baseline;gap:10px}
-  h1{font-family:var(--serif);color:var(--navy);font-size:21px;margin:0}
+  h1{font-family:var(--serif);color:var(--navy);font-size:21px;margin:0;font-weight:800;letter-spacing:-.01em}
   .live{margin-left:auto;display:flex;align-items:center;gap:7px;font-size:12px;color:var(--soft);font-weight:600}
   .dot{width:9px;height:9px;border-radius:50%;background:var(--green);animation:pulse 1.6s infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
   .sub{font-size:13px;color:var(--soft);margin:4px 0 18px}
   .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
-  .kpi{border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
   .kpi .lbl{font-size:11px;color:var(--soft);text-transform:uppercase;letter-spacing:.5px}
-  .kpi .val{font-family:var(--serif);font-size:23px;color:var(--navy);font-weight:700;font-variant-numeric:tabular-nums}
+  .kpi .val{font-family:var(--serif);font-size:24px;color:var(--navy);font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
   .kpi .val small{font-size:13px;color:var(--soft)}
   .kpi.warn .val{color:var(--orange)}
   .grid2{display:grid;grid-template-columns:1fr 300px;gap:14px}
-  .card{border:1px solid var(--line);border-radius:12px;padding:15px 17px}
-  .card h2{font-family:var(--serif);font-size:14px;color:var(--navy);margin:0 0 12px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 17px}
+  .card h2{font-family:var(--serif);font-size:14px;color:var(--navy);margin:0 0 12px;font-weight:700}
   svg{display:block;width:100%;height:auto}
   .feed{list-style:none;margin:0;padding:0;font-size:12.5px}
   .feed li{display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--line)}
   .feed li:last-child{border-bottom:0}
   .plate{font-family:Consolas,monospace;font-weight:700;color:var(--navy);background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:2px 7px;letter-spacing:1px}
   .tag{margin-left:auto;font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px}
-  .tag.in{color:#21F2C3;background:#0f2a52}
-  .tag.out{color:#21F2C3;background:#0f2a52}
+  .tag.in{color:#21F2C3;background:rgba(33,242,195,.12);border:1px solid rgba(33,242,195,.30)}
+  .tag.out{color:#7CC4FF;background:rgba(24,214,255,.10);border:1px solid rgba(24,214,255,.28)}
   .foot{font-size:11px;color:var(--soft);margin-top:10px;text-align:right}
   .foot b{color:var(--navy);font-family:var(--serif)}
 </style>
@@ -92,7 +94,12 @@ hours.forEach((h,i)=>{d+=(i?"L":"M")+X(i)+" "+Y(wait[i])+" ";
   tx.setAttribute("text-anchor","middle");tx.setAttribute("font-size","10");tx.setAttribute("fill","#8AA0C7");tx.textContent=h;svg.appendChild(tx);
 });
 area=d+`L${X(hours.length-1)} ${Y(0)} L${X(0)} ${Y(0)} Z`;
-const ar=document.createElementNS(NS,"path");ar.setAttribute("d",area);ar.setAttribute("fill","#21F2C3");ar.setAttribute("opacity","0.10");svg.appendChild(ar);
+const defs=document.createElementNS(NS,"defs");
+const grd=document.createElementNS(NS,"linearGradient");grd.setAttribute("id","ag");grd.setAttribute("x1","0");grd.setAttribute("y1","0");grd.setAttribute("x2","0");grd.setAttribute("y2","1");
+const s1=document.createElementNS(NS,"stop");s1.setAttribute("offset","0");s1.setAttribute("stop-color","#21F2C3");s1.setAttribute("stop-opacity","0.34");
+const s2=document.createElementNS(NS,"stop");s2.setAttribute("offset","1");s2.setAttribute("stop-color","#21F2C3");s2.setAttribute("stop-opacity","0");
+grd.appendChild(s1);grd.appendChild(s2);defs.appendChild(grd);svg.appendChild(defs);
+const ar=document.createElementNS(NS,"path");ar.setAttribute("d",area);ar.setAttribute("fill","url(#ag)");svg.appendChild(ar);
 const ln=document.createElementNS(NS,"path");ln.setAttribute("d",d);ln.setAttribute("fill","none");ln.setAttribute("stroke","#21F2C3");ln.setAttribute("stroke-width","2.5");
 ln.setAttribute("stroke-linejoin","round");svg.appendChild(ln);
 const len=ln.getTotalLength();ln.style.strokeDasharray=len;ln.style.strokeDashoffset=len;

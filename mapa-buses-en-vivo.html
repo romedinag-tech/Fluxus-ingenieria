@@ -4,27 +4,29 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fluxus · Mapa de buses en vivo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
     --navy:#EAF2FF; --blue:#18D6FF; --orange:#21F2C3; --body:#C7D6EE;
-    --soft:#8AA0C7; --bg:#031B4E; --line:#16386a; --white:#0a2348;
-    --serif:Georgia,'Times New Roman',serif; --sans:'Segoe UI',Calibri,Inter,system-ui,sans-serif;
+    --soft:#8AA0C7; --bg:#031B4E; --line:#16386a; --white:#0a2348; --panel:#0a2348;
+    --serif:'Inter','Segoe UI',system-ui,sans-serif; --sans:'Inter','Segoe UI',system-ui,sans-serif;
   }
   *{box-sizing:border-box}
   body{margin:0;background:#031B4E;color:var(--body);font-family:var(--sans)}
   .wrap{max-width:980px;margin:0 auto;padding:20px}
   .head{display:flex;align-items:baseline;gap:10px;margin-bottom:4px}
-  .head h1{font-family:var(--serif);color:var(--navy);font-size:22px;margin:0;font-weight:700}
+  .head h1{font-family:var(--serif);color:var(--navy);font-size:22px;margin:0;font-weight:800;letter-spacing:-.01em}
   .head .live{margin-left:auto;display:flex;align-items:center;gap:7px;font-size:12px;color:var(--soft);font-weight:600}
   .dot{width:9px;height:9px;border-radius:50%;background:var(--orange);animation:pulse 1.6s infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
   .sub{font-size:13px;color:var(--soft);margin:0 0 14px}
   .panel{display:grid;grid-template-columns:1fr 320px;gap:16px}
-  .card{background:#031B4E;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
   .mapwrap{position:relative;background:var(--bg)}
   svg{display:block;width:100%;height:auto}
   .side{padding:14px 16px}
-  .side h2{font-family:var(--serif);font-size:14px;color:var(--navy);margin:0 0 10px}
+  .side h2{font-family:var(--serif);font-size:14px;color:var(--navy);margin:0 0 10px;font-weight:700}
   .route{margin-bottom:13px}
   .route .top{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;margin-bottom:5px}
   .route .name{font-weight:700;color:var(--navy)}
@@ -56,7 +58,7 @@
           <path d="M90 0 V460 M190 0 V460 M290 0 V460 M390 0 V460 M490 0 V460 M580 0 V460"/>
         </g>
         <!-- "río"/eje -->
-        <path d="M-10 430 C140 400 220 330 360 330 S560 300 660 250" fill="none" stroke="#DDEAF7" stroke-width="14" opacity="0.8"/>
+        <path d="M-10 430 C140 400 220 330 360 330 S560 300 660 250" fill="none" stroke="#2B5C9E" stroke-width="13" opacity="0.45" stroke-linecap="round"/>
         <!-- rutas -->
         <path id="r1" d="M40 420 C120 360 160 300 290 290 S480 250 600 120" fill="none" stroke="#18D6FF" stroke-width="3" opacity="0.5" stroke-dasharray="2 5"/>
         <path id="r2" d="M60 60 C160 120 200 200 300 220 S520 300 600 400" fill="none" stroke="#EAF2FF" stroke-width="3" opacity="0.35" stroke-dasharray="2 5"/>
@@ -69,7 +71,7 @@
       <div class="legend">
         <span><i class="chip" style="background:#21F2C3"></i>Holgada</span>
         <span><i class="chip" style="background:#18D6FF"></i>Media</span>
-        <span><i class="chip" style="background:#21F2C3"></i>Alta</span>
+        <span><i class="chip" style="background:#F39200"></i>Alta</span>
         <span><i class="chip" style="background:#D9534F"></i>Saturada</span>
       </div>
     </div>
@@ -89,7 +91,7 @@ const routes=[
   {id:"r2",name:"Línea 2 · Costanera",color:"#EAF2FF",base:40},
   {id:"r3",name:"Línea 3 · Universidad",color:"#7C9CC0",base:78}
 ];
-function loadColor(p){return p<40?"#21F2C3":p<70?"#18D6FF":p<90?"#21F2C3":"#D9534F";}
+function loadColor(p){return p<40?"#21F2C3":p<70?"#18D6FF":p<90?"#F39200":"#D9534F";}
 const busLayer=document.getElementById("buses");
 const stopLayer=document.getElementById("stops");
 
