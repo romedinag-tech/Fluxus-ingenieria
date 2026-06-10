@@ -294,6 +294,15 @@
   .ci .item{background:var(--surface);border-color:var(--line)}.ci b{color:var(--ink)}
   /* === islas oscuras (se mantienen) === */
   .hero h1{color:#fff}.hero .eyebrow{color:var(--cyan)}
+  .hero-caps{position:relative;z-index:2;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:38px}
+  .hero-cap{display:block;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:13px;padding:16px 16px 17px;transition:transform .25s,border-color .25s,background .25s,box-shadow .25s}
+  .hero-cap:hover{border-color:rgba(24,214,255,.45);background:rgba(255,255,255,.08);transform:translateY(-3px);box-shadow:0 14px 34px rgba(0,0,0,.35)}
+  .hero-cap .ic{width:36px;height:36px;border-radius:10px;background:var(--grad);display:flex;align-items:center;justify-content:center;margin-bottom:11px;box-shadow:0 6px 16px rgba(24,214,255,.22)}
+  .hero-cap .ic svg{width:19px;height:19px;color:#04223f}
+  .hero-cap h3{font-size:14.5px;color:#fff;margin-bottom:4px;letter-spacing:-.01em}
+  .hero-cap p{font-size:12.5px;color:#9fb6d6;line-height:1.5}
+  @media(max-width:880px){.hero-caps{grid-template-columns:1fr 1fr;gap:10px;margin-top:24px}}
+  @media(max-width:520px){.hero-caps{grid-template-columns:1fr}}
   .entrega h2{color:#fff}.entrega .lead{color:#CFE0F5}.entrega .eyebrow{color:var(--cyan)}
   .entrega .card{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);box-shadow:none}
   .entrega .card h3{color:#fff}.entrega .card p{color:#CFE0F5}
@@ -349,6 +358,28 @@
         <h1>Del flujo al dato, del dato a la inteligencia, de la inteligencia a la <span class="grad">decisión</span>.</h1>
         <p class="sub">Convertimos el flujo real —de personas, vehículos y carga— en información para decidir mejor. Dato propio con tecnolog<span style="color:var(--cyan)">IA</span>, microdato público e ingeniería senior.</p>
       </div>
+    </div>
+    <div class="wrap hero-caps">
+      <a class="hero-cap" href="#prod-demanda">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="14.5" height="11.5" rx="2.4"/><path d="M2.5 9.4h14.5"/><circle cx="6" cy="18.8" r="1.5"/><circle cx="13.5" cy="18.8" r="1.5"/><path d="M6 16v1.3M13.5 16v1.3"/><circle cx="5.8" cy="12.7" r=".85" fill="currentColor" stroke="none"/><circle cx="9.7" cy="12.7" r=".85" fill="currentColor" stroke="none"/><circle cx="13.6" cy="12.7" r=".85" fill="currentColor" stroke="none"/></svg></span>
+        <h3>Transporte público en vivo</h3>
+        <p>Demanda, ocupación y evasión a bordo con cámaras e IA.</p>
+      </a>
+      <a class="hero-cap" href="#prod-infra">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18.5h20"/><path d="M5 18.5V6.5M19 18.5V6.5"/><path d="M5 7.5c4.7 6 9.3 6 14 0"/><path d="M8.5 18.5v-3.1M12 18.5v-3.9M15.5 18.5v-3.1" stroke-opacity=".6"/></svg></span>
+        <h3>Evaluación de infraestructura</h3>
+        <p>Análisis social y privado de proyectos de transporte.</p>
+      </a>
+      <a class="hero-cap" href="#prod-estudios">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.5s7-5.7 7-11.2a7 7 0 1 0-14 0c0 5.5 7 11.2 7 11.2z"/><circle cx="12" cy="10.2" r="2.6"/></svg></span>
+        <h3>Localización óptima</h3>
+        <p>Dónde conviene invertir, con microdato y modelación.</p>
+      </a>
+      <a class="hero-cap" href="#prod-logistica">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5h11v9H2z"/><path d="M13 9.5h3.8l3.2 3.2v2.8h-7z"/><circle cx="6" cy="18" r="1.6"/><circle cx="16.5" cy="18" r="1.6"/><path d="M4.6 6.5v9M7.2 6.5v9" stroke-opacity=".5"/></svg></span>
+        <h3>Estudios de demanda logística</h3>
+        <p>Proyección de demanda de carga portuaria, trazable a su fuente.</p>
+      </a>
     </div>
   </section>
 
