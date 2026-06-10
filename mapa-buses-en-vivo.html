@@ -8,12 +8,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --navy:#EAF2FF; --blue:#18D6FF; --orange:#21F2C3; --body:#C7D6EE;
-    --soft:#8AA0C7; --bg:#031B4E; --line:#16386a; --white:#0a2348; --panel:#0a2348;
+    --navy:#0A1D3A; --blue:#1565D6; --orange:#F39200; --body:#334760;
+    --soft:#5C6E8A; --bg:#F4F7FB; --line:#D7E2F0; --white:#FFFFFF; --panel:#FFFFFF;
     --serif:'Inter','Segoe UI',system-ui,sans-serif; --sans:'Inter','Segoe UI',system-ui,sans-serif;
   }
   *{box-sizing:border-box}
-  body{margin:0;background:#031B4E;color:var(--body);font-family:var(--sans)}
+  body{margin:0;background:var(--bg);color:var(--body);font-family:var(--sans)}
   .wrap{max-width:980px;margin:0 auto;padding:20px}
   .head{display:flex;align-items:baseline;gap:10px;margin-bottom:4px}
   .head h1{font-family:var(--serif);color:var(--navy);font-size:22px;margin:0;font-weight:800;letter-spacing:-.01em}
@@ -52,25 +52,25 @@
     <div class="card mapwrap">
       <svg viewBox="0 0 640 460" id="map" aria-label="Mapa de la ciudad con buses en vivo">
         <!-- fondo manzanas -->
-        <rect width="640" height="460" fill="#031B4E"/>
-        <g stroke="#16386a" stroke-width="1">
+        <rect width="640" height="460" fill="#EAF1FA"/>
+        <g stroke="#D5E1F0" stroke-width="1">
           <path d="M0 80 H640 M0 160 H640 M0 240 H640 M0 320 H640 M0 400 H640"/>
           <path d="M90 0 V460 M190 0 V460 M290 0 V460 M390 0 V460 M490 0 V460 M580 0 V460"/>
         </g>
         <!-- "río"/eje -->
-        <path d="M-10 430 C140 400 220 330 360 330 S560 300 660 250" fill="none" stroke="#2B5C9E" stroke-width="13" opacity="0.45" stroke-linecap="round"/>
+        <path d="M-10 430 C140 400 220 330 360 330 S560 300 660 250" fill="none" stroke="#AECCEC" stroke-width="14" opacity="0.75" stroke-linecap="round"/>
         <!-- rutas -->
-        <path id="r1" d="M40 420 C120 360 160 300 290 290 S480 250 600 120" fill="none" stroke="#18D6FF" stroke-width="3" opacity="0.5" stroke-dasharray="2 5"/>
-        <path id="r2" d="M60 60 C160 120 200 200 300 220 S520 300 600 400" fill="none" stroke="#EAF2FF" stroke-width="3" opacity="0.35" stroke-dasharray="2 5"/>
-        <path id="r3" d="M30 240 C180 230 260 180 360 190 S520 210 610 230" fill="none" stroke="#7C9CC0" stroke-width="3" opacity="0.45" stroke-dasharray="2 5"/>
+        <path id="r1" d="M40 420 C120 360 160 300 290 290 S480 250 600 120" fill="none" stroke="#1565D6" stroke-width="3" opacity="0.55" stroke-dasharray="2 5"/>
+        <path id="r2" d="M60 60 C160 120 200 200 300 220 S520 300 600 400" fill="none" stroke="#8A5CF6" stroke-width="3" opacity="0.5" stroke-dasharray="2 5"/>
+        <path id="r3" d="M30 240 C180 230 260 180 360 190 S520 210 610 230" fill="none" stroke="#0FA074" stroke-width="3" opacity="0.5" stroke-dasharray="2 5"/>
         <!-- paradas -->
         <g id="stops"></g>
         <!-- buses -->
         <g id="buses"></g>
       </svg>
       <div class="legend">
-        <span><i class="chip" style="background:#21F2C3"></i>Holgada</span>
-        <span><i class="chip" style="background:#18D6FF"></i>Media</span>
+        <span><i class="chip" style="background:#12B187"></i>Holgada</span>
+        <span><i class="chip" style="background:#1592D6"></i>Media</span>
         <span><i class="chip" style="background:#F39200"></i>Alta</span>
         <span><i class="chip" style="background:#D9534F"></i>Saturada</span>
       </div>
@@ -87,11 +87,11 @@
 <script>
 const svgNS="http://www.w3.org/2000/svg";
 const routes=[
-  {id:"r1",name:"Línea 1 · Centro–Norte",color:"#18D6FF",base:62},
-  {id:"r2",name:"Línea 2 · Costanera",color:"#EAF2FF",base:40},
-  {id:"r3",name:"Línea 3 · Universidad",color:"#7C9CC0",base:78}
+  {id:"r1",name:"Línea 1 · Centro–Norte",color:"#1565D6",base:62},
+  {id:"r2",name:"Línea 2 · Costanera",color:"#8A5CF6",base:40},
+  {id:"r3",name:"Línea 3 · Universidad",color:"#0FA074",base:78}
 ];
-function loadColor(p){return p<40?"#21F2C3":p<70?"#18D6FF":p<90?"#F39200":"#D9534F";}
+function loadColor(p){return p<40?"#12B187":p<70?"#1592D6":p<90?"#F39200":"#D9534F";}
 const busLayer=document.getElementById("buses");
 const stopLayer=document.getElementById("stops");
 
@@ -102,7 +102,7 @@ routes.forEach(r=>{
     const pt=path.getPointAtLength(L*t);
     const c=document.createElementNS(svgNS,"circle");
     c.setAttribute("cx",pt.x);c.setAttribute("cy",pt.y);c.setAttribute("r",3.4);
-    c.setAttribute("fill","#0a2348");c.setAttribute("stroke",r.color);c.setAttribute("stroke-width","1.6");
+    c.setAttribute("fill","#ffffff");c.setAttribute("stroke",r.color);c.setAttribute("stroke-width","1.8");
     stopLayer.appendChild(c);
   }
 });

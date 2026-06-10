@@ -8,12 +8,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --navy:#EAF2FF;--blue:#18D6FF;--orange:#21F2C3;--body:#C7D6EE;
-    --soft:#8AA0C7;--bg:#031B4E;--line:#16386a;--white:#0a2348;--green:#21F2C3;--panel:#0a2348;
+    --navy:#0A1D3A;--blue:#1565D6;--orange:#F39200;--body:#334760;
+    --soft:#5C6E8A;--bg:#F4F7FB;--line:#D7E2F0;--white:#FFFFFF;--green:#0B8A68;--panel:#FFFFFF;
     --serif:'Inter','Segoe UI',system-ui,sans-serif;--sans:'Inter','Segoe UI',system-ui,sans-serif;
   }
   *{box-sizing:border-box}
-  body{margin:0;background:#031B4E;color:var(--body);font-family:var(--sans)}
+  body{margin:0;background:var(--bg);color:var(--body);font-family:var(--sans)}
   .wrap{max-width:880px;margin:0 auto;padding:22px}
   h1{font-family:var(--serif);color:var(--navy);font-size:21px;margin:0 0 2px;font-weight:800;letter-spacing:-.01em}
   .sub{font-size:13px;color:var(--soft);margin:0 0 18px}
@@ -47,8 +47,8 @@
   <div class="chartcard">
     <h2>Demanda por hora
       <span class="lg">
-        <span><i class="chip" style="background:#18D6FF"></i>Pagados</span>
-        <span><i class="chip" style="background:#21F2C3"></i>Evasión</span>
+        <span><i class="chip" style="background:#1592D6"></i>Pagados</span>
+        <span><i class="chip" style="background:#14B58C"></i>Evasión</span>
       </span>
     </h2>
     <svg id="chart" viewBox="0 0 820 320" aria-label="Histograma de demanda por hora"></svg>
@@ -71,9 +71,9 @@ function y(v){return padT+plotH-(v/maxV)*plotH;}
 [0,25,50,75,100].forEach(v=>{
   const ln=document.createElementNS(NS,"line");
   ln.setAttribute("x1",padL);ln.setAttribute("x2",W-padR);ln.setAttribute("y1",y(v));ln.setAttribute("y2",y(v));
-  ln.setAttribute("stroke","#16386a");ln.setAttribute("stroke-width","1");svg.appendChild(ln);
+  ln.setAttribute("stroke","#E2EAF4");ln.setAttribute("stroke-width","1");svg.appendChild(ln);
   const tx=document.createElementNS(NS,"text");tx.setAttribute("x",padL-8);tx.setAttribute("y",y(v)+4);
-  tx.setAttribute("text-anchor","end");tx.setAttribute("font-size","11");tx.setAttribute("fill","#8AA0C7");
+  tx.setAttribute("text-anchor","end");tx.setAttribute("font-size","11");tx.setAttribute("fill","#5C6E8A");
   tx.setAttribute("font-family","Inter,Segoe UI,sans-serif");tx.textContent=v;svg.appendChild(tx);
 });
 const bars=[];
@@ -81,15 +81,15 @@ hours.forEach((h,i)=>{
   const x=padL+i*(bw+gap);
   const paid=document.createElementNS(NS,"rect");
   paid.setAttribute("x",x);paid.setAttribute("width",bw);paid.setAttribute("rx",3);
-  paid.setAttribute("y",y(0));paid.setAttribute("height",0);paid.setAttribute("fill","#18D6FF");
+  paid.setAttribute("y",y(0));paid.setAttribute("height",0);paid.setAttribute("fill","#1592D6");
   svg.appendChild(paid);
   const eva=document.createElementNS(NS,"rect");
   eva.setAttribute("x",x);eva.setAttribute("width",bw);eva.setAttribute("rx",3);
-  eva.setAttribute("y",y(0));eva.setAttribute("height",0);eva.setAttribute("fill","#21F2C3");
+  eva.setAttribute("y",y(0));eva.setAttribute("height",0);eva.setAttribute("fill","#14B58C");
   svg.appendChild(eva);
   const lbl=document.createElementNS(NS,"text");
   lbl.setAttribute("x",x+bw/2);lbl.setAttribute("y",H-padB+18);lbl.setAttribute("text-anchor","middle");
-  lbl.setAttribute("font-size","10.5");lbl.setAttribute("fill","#8AA0C7");lbl.setAttribute("font-family","Inter,Segoe UI,sans-serif");
+  lbl.setAttribute("font-size","10.5");lbl.setAttribute("fill","#5C6E8A");lbl.setAttribute("font-family","Inter,Segoe UI,sans-serif");
   lbl.textContent=h;svg.appendChild(lbl);
   bars.push({paid,eva,x});
 });

@@ -1,0 +1,17 @@
+Tema claro: paleta tech legible para analíticas, logo como acento
+
+Nueva paleta clara de corte tecnológico, pensada para mostrar datos/analíticas
+con mejor legibilidad. Concepto: hero, encabezado y pie se mantienen oscuros
+(donde brilla el logo y la atmósfera de marca) y el contenido se abre a un
+lienzo claro -- del flujo (oscuro) a la decisión (clara).
+
+- Lienzo #F4F7FB, superficies blancas, tinta #0A1D3A, texto #334760/#5C6E8A
+- Acentos del logo: azul #1565D6, cian #0C7C9E, turquesa #0B8A68 (legibles en claro)
+  y el gradiente azul-cian-verde en badges, método y momentos clave
+- Islas oscuras conservadas: hero, header, footer, banda Entrega, carrusel
+- Dashboards (acceso portuario, demanda/evasión, mapa de buses) re-tematizados a
+  claro: grilla suave, ejes legibles, series y escala de ocupación con contraste
+- viaje-del-dato.svg: paneles claros, texto oscuro, acentos deepened
+- Tarjetas, formulario, equipo y detalle de producto en superficie clara
+
+Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>

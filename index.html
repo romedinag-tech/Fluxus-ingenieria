@@ -243,6 +243,64 @@
   .carousel .dots{position:absolute;bottom:18px;right:18px;display:flex;gap:7px;z-index:3}
   .carousel .dots b{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.35);cursor:pointer;transition:.3s}
   .carousel .dots b.on{background:var(--cyan);width:22px;border-radius:5px}
+
+  /* ===================== TEMA CLARO — Fluxus ===================== */
+  :root{
+    --ink:#0A1D3A;--body:#334760;--muted:#5C6E8A;--line:#D7E2F0;
+    --bg:#F4F7FB;--bg2:#E9F0F8;--surface:#FFFFFF;
+    --blue:#1565D6;--cyan-ink:#0C7C9E;--green-ink:#0B8A68;
+    --panel:#FFFFFF;--panel2:#EDF3FA;--txt:#334760;
+  }
+  body{background:var(--bg);color:var(--body)}
+  body{background-image:radial-gradient(rgba(20,70,140,.05) 1px,transparent 1.5px);background-size:30px 30px;background-attachment:fixed}
+  h1,h2,h3,h4{color:var(--ink)}
+  a{color:var(--blue)}
+  .eyebrow{color:var(--cyan-ink)}
+  .lead{color:var(--muted)}
+  a:focus-visible,button:focus-visible{outline-color:var(--blue)}
+  .btn-primary{background:var(--blue);box-shadow:0 10px 26px rgba(21,101,214,.22)}
+  .btn-primary:hover{background:#0F57C0;color:#fff;box-shadow:0 12px 30px rgba(21,101,214,.30)}
+  .btn-ghost{color:var(--blue);border-color:#BFD3EE}
+  .btn-ghost:hover{border-color:var(--blue);box-shadow:0 0 18px rgba(21,101,214,.18)}
+  .alt{background:var(--bg2)}
+  section.alt{background-color:var(--bg2);background-image:radial-gradient(900px 440px at 85% -12%,rgba(21,101,214,.06),transparent 62%)}
+  section+section{border-top:1px solid rgba(20,60,120,.06)}
+  .contacto{background-color:var(--bg2)}
+  .card{background:var(--surface);border:1px solid var(--line);box-shadow:0 1px 2px rgba(13,38,76,.04),0 10px 28px rgba(13,38,76,.05)}
+  .card:hover{border-color:#BCD4F0;box-shadow:0 16px 42px rgba(21,101,214,.12);transform:translateY(-3px)}
+  .card h3{color:var(--ink)}.card p{color:var(--muted)}
+  .card[style*="background-image"] h3{color:#fff}
+  .card[style*="background-image"] p{color:#DCE8F7}
+  .card[style*="background-image"]{border-color:rgba(255,255,255,.10)}
+  .card[style*="background-image"]:hover{border-color:rgba(255,255,255,.28)}
+  .plano-tag{border-color:var(--line)}
+  .plano-tag.g1{color:var(--green-ink)}.plano-tag.g2{color:var(--cyan-ink)}
+  .pcard{border-color:rgba(255,255,255,.10)}
+  .back{color:var(--muted)}
+  .pdtag.g1{color:var(--green-ink)}.pdtag.g2{color:var(--cyan-ink)}
+  .block li,.block p{color:var(--body)}.block b{color:var(--ink)}
+  .dolor{border-left-color:var(--green-ink)}
+  .dolor .q{color:var(--ink)}.dolor .a{color:var(--muted)}.dolor .a b{color:var(--blue)}
+  .figbox{background:var(--surface);border-color:var(--line)}
+  .figcap{color:var(--muted)}
+  .note{background:#E7F7F1;border-color:#A6E2CF;color:#0B6F54}
+  .person{background:var(--surface);border-color:var(--line)}
+  .person .role{color:var(--cyan-ink)}.person p{color:var(--muted)}
+  label{color:var(--muted)}
+  input,select,textarea{background:#fff;border-color:var(--line);color:var(--ink)}
+  input:focus,select:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(21,101,214,.14)}
+  .form-note{color:var(--muted)}
+  .ok-msg{background:#E7F7F1;border-color:#34E0C4;color:#0B6F54}
+  .ci .item{background:var(--surface);border-color:var(--line)}.ci b{color:var(--ink)}
+  /* === islas oscuras (se mantienen) === */
+  .hero h1{color:#fff}.hero .eyebrow{color:var(--cyan)}
+  .entrega h2{color:#fff}.entrega .lead{color:#CFE0F5}.entrega .eyebrow{color:var(--cyan)}
+  .entrega .card{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);box-shadow:none}
+  .entrega .card h3{color:#fff}.entrega .card p{color:#CFE0F5}
+  .exp-strip span{color:#CFE0F5;border-color:rgba(255,255,255,.16);background:rgba(255,255,255,.05)}
+  .exp-strip b{color:var(--cyan)}
+  footer{color:#9FB3D0}
+  .wavebg svg{opacity:.55}
 </style>
 </head>
 <body>
